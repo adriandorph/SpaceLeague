@@ -76,7 +76,7 @@ public class Ship{
 
 
 
-            //Find angle to center
+            //Find angle to center måske her den er gal
             double distanceFromCenter = Math.sqrt(shapePosX*shapePosX + shapePosY*shapePosY);
             double oriAngle = Math.toDegrees(Math.acos(shapePosX / distanceFromCenter));
             System.out.println(oriAngle);
