@@ -23,10 +23,11 @@ public class ShipFactory {
     public static Flyable BoxShip(){
         double[] shapeX = {};
         double[] shapeY = {};
-        return new Ship(1,1,1,"S-class", "The Box", shapeX, shapeY);
+        return new FlyableShip(1,1,1,"S-class", "The Box", shapeX, shapeY);
     }
 
     private void initializeRanks(){
+        classRanks = new HashMap<>();
         classRanks.put("S-class",0);
         classRanks.put("A-class",1);
         classRanks.put("B-class",2);
