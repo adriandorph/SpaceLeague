@@ -1,6 +1,8 @@
+package Controller;
+
 import Model.Model;
 import Model.Ships.ShipFactory;
-import javafx.application.Application;
+import View.GameCanvas;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCombination;
@@ -9,22 +11,22 @@ import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 
-public class View extends Application {
-    public static Model model;
+public class Controller extends javafx.application.Application {
+    public Model model;
     public static ShipFactory shipFactory = new ShipFactory();
     public static double factor = 1.0;   // 1.0 = 720p bruges til skalering.
     private static GameCanvas gameCanvas;
     private static Stage primaryStage;
-    public static void main(Model model_) {
-        model = model_;
+    public static void main() {
         launch();
     }
 
     @Override
     public void start(Stage primaryStage) {
+        model = new Model();
         StackPane background = new StackPane();
         Scene scene = new Scene(background);
-        View.primaryStage = primaryStage;
+        Controller.primaryStage = primaryStage;
         gameCanvas = new GameCanvas(500,720);
         background.getChildren().add(gameCanvas);
         primaryStage.setResizable(false);
