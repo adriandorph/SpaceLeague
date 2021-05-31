@@ -1,3 +1,4 @@
+import Model.Model;
 import javafx.application.Application;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
