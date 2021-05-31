@@ -22,9 +22,7 @@ public class GameCanvas extends Canvas {
         gc.setFill(Color.rgb(255,255,255));
         Ship ship1 = new Ship(1,1,1,"S-class","", new double[]{-10.0, 10.0, 10.0, -10.0}, new double[]{20.0, 20.0, -20.0, -20.0});
         ship1.startPosition(StartPosition.PLAYER1);
-        double[]x = ship1.getDynamicShapeX();
-        double[]y = ship1.getDynamicShapeY();
-        gc.fillPolygon(x,y,4);
+        ship1.draw(gc);
         gc.restore();
     }
 }

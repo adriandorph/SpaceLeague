@@ -1,5 +1,6 @@
 package Model.Ships;
 import Controller.Controller;
+import javafx.scene.canvas.GraphicsContext;
 
 public class Ship implements Comparable<Ship>{
     private final double speed;
@@ -29,6 +30,9 @@ public class Ship implements Comparable<Ship>{
         this.name = name;
         this.shapeX = shapeX;
         this.shapeY = shapeY;
+        velR = 0;
+        velX = 0;
+        velY = 0;
     }
 
     public void startPosition(StartPosition startPosition){
@@ -64,7 +68,20 @@ public class Ship implements Comparable<Ship>{
     }
 
     public void updateAngle(){
+        //TODO: this
         angle %= 360;
+    }
+    public void updateVelR(){
+        //TODO: this
+        velR = 0;
+    }
+    public void updateVelX(){
+        //TODO: this
+        velX = 0;
+    }
+    public void updateVelY(){
+        //TODO: this
+        velY = 0;
     }
 
     public double[] getDynamicShapeX(){
@@ -75,7 +92,6 @@ public class Ship implements Comparable<Ship>{
         return dynamicShapeY;
     }
 
-    //Måske ubrugeligt
     public double getSpeed(){
         return speed;
     }
@@ -88,7 +104,6 @@ public class Ship implements Comparable<Ship>{
     public String getName(){
         return name;
     }
-
     public String getClassName() {
         return className;
     }
@@ -98,5 +113,9 @@ public class Ship implements Comparable<Ship>{
         if (this.classRank < that.classRank) return -1;
         if (this.classRank > that.classRank) return 1;
         return this.name.compareTo(that.name);
+    }
+
+    public void draw(GraphicsContext gc){
+        gc.fillPolygon(dynamicShapeX, dynamicShapeY, dynamicShapeX.length);
     }
 }
