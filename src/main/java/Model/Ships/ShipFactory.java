@@ -14,7 +14,7 @@ public class ShipFactory {
     private List<Flyable> AeroBclass;
     private List<Flyable> TurboCclass;
      */
-    private static HashMap<String, Integer> classRanks;
+    private static HashMap<String, Integer> classRanks = new HashMap<>();
 
     public ShipFactory(){
         initializeRanks();
