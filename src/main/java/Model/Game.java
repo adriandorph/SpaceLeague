@@ -55,6 +55,9 @@ public class Game implements Runnable {
                 unprocessedTime -= FPS;
                 render = true;
                 //TODO: update game
+                gameField.update(FPS);//I sekunder
+
+
                 if (frameTime >= 1){
                     frameTime = 0;
                     fpsActual = frames;

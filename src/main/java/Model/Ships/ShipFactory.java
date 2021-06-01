@@ -24,8 +24,8 @@ public class ShipFactory {
         double[] shapeY = {20.0, 20.0, -20.0, -20.0};
         double gunPositionX = 0.0;
         double gunPositionY = 20.0;
-        if (flyable) return new FlyableShip(1,1,1,"S-class", "The Box", shapeX, shapeY, gunPositionX, gunPositionY, startPosition);
-        else return new Ship(1,1,1,"S-class", "The Box", shapeX, shapeY, gunPositionX, gunPositionY, startPosition);
+        if (flyable) return new FlyableShip(10,10,1,"S-class", "The Box", shapeX, shapeY, gunPositionX, gunPositionY, startPosition);
+        else return new Ship(10,10,1,"S-class", "The Box", shapeX, shapeY, gunPositionX, gunPositionY, startPosition);
     }
 
     private void initializeRanks(){

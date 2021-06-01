@@ -1,12 +1,18 @@
 package Model.Ships;
 import Controller.Controller;
+import Model.Shot;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Ship implements Comparable<Ship>, Drawable{
     private final double speed;
     private final double turningAcceleration;
     private final double shootingRate;
+    private double timeSinceLastShoot; // i sekunder
+    private boolean canShoot;
     private final int classRank;
     private final String className;
     private final String name;
@@ -15,6 +21,7 @@ public class Ship implements Comparable<Ship>, Drawable{
     private double[] dynamicShapeX;
     private double[] dynamicShapeY;
     protected Color color;
+    private List<Shot> shots;
 
     private double velX;
     private double velY;
@@ -38,6 +45,9 @@ public class Ship implements Comparable<Ship>, Drawable{
         this.shapeY = shapeY;
         this.gunPosX = gunPosX;
         this.gunPosY = gunPosY;
+        timeSinceLastShoot = 0; //Cooldown fra start
+        canShoot = false;
+        shots = new ArrayList<>();
         velR = 0;
         velX = 0;
         velY = 0;
@@ -48,7 +58,7 @@ public class Ship implements Comparable<Ship>, Drawable{
         if (startPosition == StartPosition.PLAYER1){
             positionX = 200;
             positionY = 200;
-            angle = 10;
+            angle = 120;
             color = Color.RED;
         } else if (startPosition == StartPosition.PLAYER2){
             positionX = 400;
@@ -59,15 +69,27 @@ public class Ship implements Comparable<Ship>, Drawable{
             positionX = 0;
             positionY = 0;
         }
-        updatePosition();
+        update(0);
     }
 
-    public void updatePosition(){
+    public void update(double time){
         //Update position, rotation
-        updateVelR();
-        updateAngle();
-        updateVelX();
-        updateVelY();
+        updateVelR(time, true, false);
+        updateAngle(time);
+        updateVelX(time);
+        updateVelY(time);
+        updatePosition(time);
+        timeSinceLastShoot += time;
+        if (timeSinceLastShoot < shootingRate) canShoot = false;
+        else canShoot = true;
+        if (canShoot) shoot();
+
+        for(int i = 0; i<shots.size(); i++){
+            Shot shot = shots.get(i);
+            shot.update(time);
+            shots.set(i, shot);
+        }
+
 
         //Shape angle conversion
         dynamicShapeX = new double[shapeX.length];
@@ -84,22 +106,31 @@ public class Ship implements Comparable<Ship>, Drawable{
         dynamicGunPosY = gunPosY * Math.cos(Math.toRadians(angle)) + gunPosX * Math.sin(Math.toRadians(angle)) + positionY;
     }
 
-    public void updateAngle(){
-        //TODO: this
-        angle++;
-        angle %= 360;
+    public void updateAngle(double time){
+        angle += velR * time;
+        if (angle < 0){
+            angle = 360 -angle;
+        } else angle %= 360;
     }
-    public void updateVelR(){
+    public void updateVelR(double time, boolean turning, boolean right){
         //TODO: this
-        velR = 0;
+        if (turning) {
+            if (right) velR += turningAcceleration * time;
+            else velR -= turningAcceleration * time;
+        }
     }
-    public void updateVelX(){
-        //TODO: this
-        velX = 0;
+    public void updateVelX(double time){
+        //TODO: this konstant aktiv, knyt til key
+        velX += time * speed * Math.cos(Math.toRadians(angle+90));
     }
-    public void updateVelY(){
-        //TODO: this
-        velY = 0;
+    public void updateVelY(double time){
+        //TODO: this konstant aktiv, knyt til key
+        velY += time * speed * Math.sin(Math.toRadians(angle+90));
+    }
+
+    public void updatePosition(double time){
+        positionX += velX * time;
+        positionY += velY * time;
     }
 
     public double[] getDynamicShapeX(){
@@ -126,6 +157,9 @@ public class Ship implements Comparable<Ship>, Drawable{
     public String getClassName() {
         return className;
     }
+    public List<Shot> getShots(){
+        return shots;
+    }
 
     @Override
     public int compareTo(Ship that) {
@@ -138,5 +172,10 @@ public class Ship implements Comparable<Ship>, Drawable{
     public void draw(GraphicsContext gc){
         gc.setFill(color);
         gc.fillPolygon(dynamicShapeX, dynamicShapeY, dynamicShapeX.length);
+    }
+
+    public void shoot() {
+        shots.add(new Shot(color, dynamicGunPosX, dynamicGunPosY, angle, velX, velY));
+        timeSinceLastShoot = 0;
     }
 }

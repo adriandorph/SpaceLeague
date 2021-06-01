@@ -9,11 +9,6 @@ public class FlyablePlane extends Plane implements Flyable{
     }
 
     @Override
-    public Shot shoot() {
-        return new Shot(color, dynamicGunPosX, dynamicGunPosY, angle);
-    }
-
-    @Override
     public void move() {
 
     }

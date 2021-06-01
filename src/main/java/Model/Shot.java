@@ -7,7 +7,7 @@ import javafx.scene.paint.Color;
 
 public class Shot implements Drawable {
     private static final double[] shapeX= new double[]{-1.0,1.0,1.0,-1.0};
-    private static final double[] shapeY= new double[]{2.5, 2.5, -2.5, -2.5};
+    private static final double[] shapeY= new double[]{5.0, 5.0, 0.0, 0.0};
     private double[] dynamicShapeX;
     private double[] dynamicShapeY;
     private double positionX;
@@ -15,16 +15,21 @@ public class Shot implements Drawable {
     private double angle;
     private double velX;
     private double velY;
+    private final Color color;
+    private final double speed = 100.0;
 
-    public Shot(Color color, double gunPositionX, double gunPositionY, double angle){
+    public Shot(Color color, double gunPositionX, double gunPositionY, double angle, double shipVelX, double shipVelY){
+        this.color = color;
         positionX = gunPositionX;
         positionY = gunPositionY;
         this.angle = angle;
+        velX = speed * Math.cos(Math.toRadians(angle+90)) + shipVelX;//Det virker, ved ikke hvorfor +90;
+        velY = speed * Math.sin(Math.toRadians(angle+90)) + shipVelY;
+    }
 
-        final double speed = 10;
-
-        velX = speed * Math.cos(Math.toRadians(angle));//Skal lige testes
-        velY = speed * Math.sin(Math.toRadians(angle));
+    public void update(double time){
+        positionX += time * velX;
+        positionY += time * velY;
 
         dynamicShapeX = new double[shapeX.length];
         dynamicShapeY = new double[shapeY.length];
@@ -36,12 +41,14 @@ public class Shot implements Drawable {
             dynamicShapeX[i] = (shapePosX+positionX) * Controller.factor;
             dynamicShapeY[i] = (shapePosY+positionY) * Controller.factor;
         }
+
     }
 
 
 
     @Override
     public void draw(GraphicsContext gc) {
+        gc.setFill(color);
         gc.fillPolygon(dynamicShapeX, dynamicShapeY, dynamicShapeX.length);
     }
 }

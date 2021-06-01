@@ -3,7 +3,7 @@ package Model.Ships;
 import Model.Shot;
 
 public interface Flyable {
-    Shot shoot();
+    //Shot shoot();
     void move();
     void turn();
 }
