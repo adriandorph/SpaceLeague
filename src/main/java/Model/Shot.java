@@ -16,7 +16,7 @@ public class Shot implements Drawable {
     private double velX;
     private double velY;
     private final Color color;
-    private final double speed = 100.0;
+    private final double speed = 500.0;
 
     public Shot(Color color, double gunPositionX, double gunPositionY, double angle, double shipVelX, double shipVelY){
         this.color = color;

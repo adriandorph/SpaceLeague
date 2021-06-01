@@ -42,7 +42,7 @@ public class Controller extends javafx.application.Application {
             System.exit(0);
         });
         Controller.primaryStage = primaryStage;
-        setSize(640);
+        setFullScreen();
         startGame(true, (FlyableShip) ShipFactory.BoxShip(StartPosition.PLAYER1, true), ShipFactory.BoxShip(StartPosition.PLAYER2, false));
     }
 

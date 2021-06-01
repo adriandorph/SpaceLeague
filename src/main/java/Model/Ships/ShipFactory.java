@@ -20,12 +20,12 @@ public class ShipFactory {
     }
 
     public static Ship BoxShip(StartPosition startPosition, boolean flyable){
-        double[] shapeX = {-10.0, 10.0, 10.0, -10.0};
+        double[] shapeX = {-7.5, 7.5, 10.0, -10.0};
         double[] shapeY = {20.0, 20.0, -20.0, -20.0};
         double gunPositionX = 0.0;
         double gunPositionY = 20.0;
-        if (flyable) return new FlyableShip(100,500,1,"S-class", "The Box", shapeX, shapeY, gunPositionX, gunPositionY, startPosition);
-        else return new Ship(100,500,1,"S-class", "The Box", shapeX, shapeY, gunPositionX, gunPositionY, startPosition);
+        if (flyable) return new FlyableShip(100,400,0.3,"S-class", "The Box", shapeX, shapeY, gunPositionX, gunPositionY, startPosition);
+        else return new Ship(100,400,0.3,"S-class", "The Box", shapeX, shapeY, gunPositionX, gunPositionY, startPosition);
     }
 
     private void initializeRanks(){

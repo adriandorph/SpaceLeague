@@ -68,7 +68,7 @@ public class Ship implements Comparable<Ship>, Drawable{
         if (startPosition == StartPosition.PLAYER1){
             positionX = 200;
             positionY = 200;
-            angle = 120;
+            angle = 0;
             color = Color.RED;
         } else if (startPosition == StartPosition.PLAYER2){
             positionX = 1000;
