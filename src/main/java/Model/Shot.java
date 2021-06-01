@@ -44,7 +44,9 @@ public class Shot implements Drawable {
 
     }
 
-
+    public boolean isInGameField(){
+        return !(positionY <= 0.0) && !(positionY >= 720.0) && !(positionX <= 0.0) && !(positionX >= 720 * 16.0 / 9.0);
+    }
 
     @Override
     public void draw(GraphicsContext gc) {

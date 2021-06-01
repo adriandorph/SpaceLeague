@@ -88,6 +88,7 @@ public class Ship implements Comparable<Ship>, Drawable{
         updateAngle(time);
         if (moveForward) updateVelocity(time);
         updatePosition(time);
+        detroyShots();
 
         timeSinceLastShoot += time;
         if (timeSinceLastShoot < shootingRate) canShoot = false;
@@ -134,8 +135,33 @@ public class Ship implements Comparable<Ship>, Drawable{
     }
 
     public void updatePosition(double time){
+        //Boundary detection
+        if (positionY <= 0.0){
+            velY *= -0.2;
+            positionY = 0.1;
+        } else if (positionY >= 720.0) {
+            velY *= -0.2;
+            positionY = 719.9;
+        }
+        if (positionX <= 0.0){
+            velX *= -0.2;
+            positionX = 0.1;
+        } else if(positionX >= 720 * 16.0/9.0) {
+            velX *= -0.2;
+            positionX = 1279.9;
+        }
+
+        //position update by speed
         positionX += velX * time;
         positionY += velY * time;
+    }
+
+    public void detroyShots(){
+        List<Shot> removeObjects = new ArrayList<>();
+        for (Shot shot : shots) {
+            if (!shot.isInGameField()) removeObjects.add(shot);
+        }
+        shots.removeAll(removeObjects);
     }
 
     public double[] getDynamicShapeX(){

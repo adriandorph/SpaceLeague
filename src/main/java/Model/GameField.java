@@ -1,7 +1,6 @@
 package Model;
 
 import Controller.Controller;
-import Controller.KeyInput;
 import Exceptions.UnfairException;
 import Model.Ships.*;
 

@@ -78,5 +78,6 @@ public class Game implements Runnable {
                 }
             }
         }
+        System.out.println("Game ended??");
     }
 }
