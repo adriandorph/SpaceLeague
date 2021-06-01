@@ -8,7 +8,6 @@ public class FlyableShip extends Ship implements Flyable{
 
     @Override
     public void move() {
-
     }
 
     @Override

@@ -9,7 +9,6 @@ import java.util.List;
 
 public class GameCanvas extends Canvas {
     private GraphicsContext gc;
-    List<Drawable> Objects;
 
     public GameCanvas(double width, double height, List<Drawable> objects){
         super(width, height);
@@ -18,7 +17,6 @@ public class GameCanvas extends Canvas {
     }
 
     public void update(List<Drawable> objects){
-
         gc.save();
         gc.setFill(Color.rgb(0,0,0));
         gc.fillRect(0,0, getWidth(), getHeight());

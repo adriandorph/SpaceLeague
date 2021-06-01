@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Ship implements Comparable<Ship>, Drawable{
-    private final double speed;
+    protected final double speed;
     private final double turningAcceleration;
     private final double shootingRate;
     private double timeSinceLastShoot; // i sekunder
@@ -23,9 +23,9 @@ public class Ship implements Comparable<Ship>, Drawable{
     protected Color color;
     private List<Shot> shots;
 
-    private double velX;
-    private double velY;
-    private double velR;
+    protected double velX;
+    protected double velY;
+    protected double velR;
     protected double angle;
     private double positionX;
     private double positionY;
@@ -33,6 +33,10 @@ public class Ship implements Comparable<Ship>, Drawable{
     private final double gunPosY;
     protected double dynamicGunPosX;
     protected double dynamicGunPosY;
+    private boolean moveForward;
+    private boolean turnLeft;
+    private boolean turnRight;
+    private boolean shoot;
 
     public Ship(double speed, double turningAcceleration, double shootingRate, String className, String name, double[] shapeX, double[] shapeY, double gunPosX, double gunPosY, StartPosition startPosition){
         this.speed = speed;
@@ -51,6 +55,12 @@ public class Ship implements Comparable<Ship>, Drawable{
         velR = 0;
         velX = 0;
         velY = 0;
+
+        moveForward = false;
+        turnLeft = false;
+        turnRight = false;
+        shoot = false;
+
         startPosition(startPosition);
     }
 
@@ -74,15 +84,15 @@ public class Ship implements Comparable<Ship>, Drawable{
 
     public void update(double time){
         //Update position, rotation
-        updateVelR(time, true, false);
+        updateVelR(time, turnLeft, turnRight);
         updateAngle(time);
-        updateVelX(time);
-        updateVelY(time);
+        if (moveForward) updateVelocity(time);
         updatePosition(time);
+
         timeSinceLastShoot += time;
         if (timeSinceLastShoot < shootingRate) canShoot = false;
         else canShoot = true;
-        if (canShoot) shoot();
+        if (canShoot && shoot) shoot();
 
         for(int i = 0; i<shots.size(); i++){
             Shot shot = shots.get(i);
@@ -112,19 +122,14 @@ public class Ship implements Comparable<Ship>, Drawable{
             angle = 360 -angle;
         } else angle %= 360;
     }
-    public void updateVelR(double time, boolean turning, boolean right){
-        //TODO: this
-        if (turning) {
+    public void updateVelR(double time, boolean left, boolean right){
+        //TODO: this{
             if (right) velR += turningAcceleration * time;
-            else velR -= turningAcceleration * time;
-        }
+            if (left) velR -= turningAcceleration * time;
     }
-    public void updateVelX(double time){
-        //TODO: this konstant aktiv, knyt til key
+
+    public void updateVelocity(double time){
         velX += time * speed * Math.cos(Math.toRadians(angle+90));
-    }
-    public void updateVelY(double time){
-        //TODO: this konstant aktiv, knyt til key
         velY += time * speed * Math.sin(Math.toRadians(angle+90));
     }
 
@@ -174,5 +179,21 @@ public class Ship implements Comparable<Ship>, Drawable{
     public void shoot() {
         shots.add(new Shot(color, dynamicGunPosX, dynamicGunPosY, angle, velX, velY));
         timeSinceLastShoot = 0;
+    }
+
+    public void setMoveForward(boolean moveForward) {
+        this.moveForward = moveForward;
+    }
+
+    public void setTurnLeft(boolean turnLeft) {
+        this.turnLeft = turnLeft;
+    }
+
+    public void setTurnRight(boolean turnRight) {
+        this.turnRight = turnRight;
+    }
+
+    public void setShoot(boolean shoot) {
+        this.shoot = shoot;
     }
 }

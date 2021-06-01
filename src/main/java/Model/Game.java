@@ -62,7 +62,7 @@ public class Game implements Runnable {
                     frameTime = 0;
                     fpsActual = frames;
                     frames = 0;
-                    System.out.println("FPS: "+ fpsActual);
+                    //System.out.println("FPS: "+ fpsActual);
                 }
             }
 

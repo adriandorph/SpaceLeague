@@ -1,10 +1,11 @@
 package Model;
 
+import Controller.Controller;
+import Controller.KeyInput;
 import Exceptions.UnfairException;
 import Model.Ships.*;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class GameField {
@@ -20,7 +21,12 @@ public class GameField {
     }
 
     public void update(double time){
+        player1.setMoveForward(Controller.moveForward());
+        player1.setTurnLeft(Controller.turnLeft());
+        player1.setTurnRight(Controller.turnRight());
+        player1.setShoot(Controller.shoot());
         player1.update(time);
+
         player2.update(time);
     }
 
