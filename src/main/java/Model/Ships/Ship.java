@@ -61,7 +61,7 @@ public class Ship implements Comparable<Ship>, Drawable{
             angle = 120;
             color = Color.RED;
         } else if (startPosition == StartPosition.PLAYER2){
-            positionX = 400;
+            positionX = 1000;
             positionY = 200;
             angle = 0;
             color = Color.BLUE;
@@ -139,9 +139,6 @@ public class Ship implements Comparable<Ship>, Drawable{
     public double[] getDynamicShapeY(){
         return dynamicShapeY;
     }
-    public double getDynamicGunPosX(){return dynamicGunPosX;}
-    public double getDynamicGunPosY(){return dynamicGunPosY;}
-    public Color getColor(){return color;}
     public double getSpeed(){
         return speed;
     }
