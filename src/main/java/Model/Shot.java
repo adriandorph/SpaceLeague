@@ -12,11 +12,11 @@ public class Shot implements Drawable {
     private double[] dynamicShapeY;
     private double positionX;
     private double positionY;
-    private double angle;
-    private double velX;
-    private double velY;
+    private final double angle;
+    private final double velX;
+    private final double velY;
     private final Color color;
-    private final double speed = 500.0;
+    private static final double speed = 500.0;
 
     public Shot(Color color, double gunPositionX, double gunPositionY, double angle, double shipVelX, double shipVelY){
         this.color = color;

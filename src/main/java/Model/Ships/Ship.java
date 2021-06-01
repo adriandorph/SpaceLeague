@@ -20,6 +20,10 @@ public class Ship implements Comparable<Ship>, Drawable{
     private final double[] shapeY;
     private double[] dynamicShapeX;
     private double[] dynamicShapeY;
+    private final double[] flameX;
+    private final double[] flameY;
+    private double[] dynamicFlameX;
+    private double[] dynamicFlameY;
     protected Color color;
     private List<Shot> shots;
 
@@ -38,7 +42,7 @@ public class Ship implements Comparable<Ship>, Drawable{
     private boolean turnRight;
     private boolean shoot;
 
-    public Ship(double speed, double turningAcceleration, double shootingRate, String className, String name, double[] shapeX, double[] shapeY, double gunPosX, double gunPosY, StartPosition startPosition){
+    public Ship(double speed, double turningAcceleration, double shootingRate, String className, String name, double[] shapeX, double[] shapeY, double[] flameX, double[] flameY, double gunPosX, double gunPosY, StartPosition startPosition){
         this.speed = speed;
         this.turningAcceleration = turningAcceleration;
         this.shootingRate = shootingRate;
@@ -47,6 +51,8 @@ public class Ship implements Comparable<Ship>, Drawable{
         this.name = name;
         this.shapeX = shapeX;
         this.shapeY = shapeY;
+        this.flameX = flameX;
+        this.flameY = flameY;
         this.gunPosX = gunPosX;
         this.gunPosY = gunPosY;
         timeSinceLastShoot = 0; //Cooldown fra start
@@ -113,8 +119,20 @@ public class Ship implements Comparable<Ship>, Drawable{
             dynamicShapeX[i] = (shapePosX+positionX) * Controller.factor;
             dynamicShapeY[i] = (shapePosY+positionY) * Controller.factor;
         }
+
         dynamicGunPosX = gunPosX * Math.cos(Math.toRadians(angle)) - gunPosY * Math.sin(Math.toRadians(angle)) + positionX;
         dynamicGunPosY = gunPosY * Math.cos(Math.toRadians(angle)) + gunPosX * Math.sin(Math.toRadians(angle)) + positionY;
+
+        dynamicFlameX = new double[flameX.length];
+        dynamicFlameY = new double[flameY.length];
+        for (int i = 0; i<flameX.length; i++){
+            //Rotation https://www.youtube.com/watch?v=OYuoPTRVzxY
+            double shapePosX = flameX[i] * Math.cos(Math.toRadians(angle)) - flameY[i] * Math.sin(Math.toRadians(angle));
+            double shapePosY = flameY[i] * Math.cos(Math.toRadians(angle)) + flameX[i] * Math.sin(Math.toRadians(angle));
+
+            dynamicFlameX[i] = (shapePosX+positionX) * Controller.factor;
+            dynamicFlameY[i] = (shapePosY+positionY) * Controller.factor;
+        }
     }
 
     public void updateAngle(double time){
@@ -200,6 +218,7 @@ public class Ship implements Comparable<Ship>, Drawable{
     public void draw(GraphicsContext gc){
         gc.setFill(color);
         gc.fillPolygon(dynamicShapeX, dynamicShapeY, dynamicShapeX.length);
+        if (moveForward) gc.fillPolygon(dynamicFlameX, dynamicFlameY, dynamicFlameX.length);
     }
 
     public void shoot() {
