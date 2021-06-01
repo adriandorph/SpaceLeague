@@ -1,8 +1,9 @@
 package Model.Ships;
 import Controller.Controller;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.paint.Color;
 
-public class Ship implements Comparable<Ship>{
+public class Ship implements Comparable<Ship>, Drawable{
     private final double speed;
     private final double turningAcceleration;
     private final double shootingRate;
@@ -13,15 +14,20 @@ public class Ship implements Comparable<Ship>{
     private final double[] shapeY;
     private double[] dynamicShapeX;
     private double[] dynamicShapeY;
+    protected Color color;
 
     private double velX;
     private double velY;
     private double velR;
-    private double angle;
+    protected double angle;
     private double positionX;
     private double positionY;
+    private final double gunPosX;
+    private final double gunPosY;
+    protected double dynamicGunPosX;
+    protected double dynamicGunPosY;
 
-    public Ship(double speed, double turningAcceleration, double shootingRate, String className, String name, double[] shapeX, double[] shapeY){
+    public Ship(double speed, double turningAcceleration, double shootingRate, String className, String name, double[] shapeX, double[] shapeY, double gunPosX, double gunPosY, StartPosition startPosition){
         this.speed = speed;
         this.turningAcceleration = turningAcceleration;
         this.shootingRate = shootingRate;
@@ -30,9 +36,12 @@ public class Ship implements Comparable<Ship>{
         this.name = name;
         this.shapeX = shapeX;
         this.shapeY = shapeY;
+        this.gunPosX = gunPosX;
+        this.gunPosY = gunPosY;
         velR = 0;
         velX = 0;
         velY = 0;
+        startPosition(startPosition);
     }
 
     public void startPosition(StartPosition startPosition){
@@ -40,19 +49,25 @@ public class Ship implements Comparable<Ship>{
             positionX = 200;
             positionY = 200;
             angle = 10;
+            color = Color.RED;
         } else if (startPosition == StartPosition.PLAYER2){
             positionX = 400;
             positionY = 200;
             angle = 0;
+            color = Color.BLUE;
         } else {
             positionX = 0;
             positionY = 0;
         }
-
         updatePosition();
     }
 
     public void updatePosition(){
+        //Update position, rotation
+        updateVelR();
+        updateAngle();
+        updateVelX();
+        updateVelY();
 
         //Shape angle conversion
         dynamicShapeX = new double[shapeX.length];
@@ -65,10 +80,13 @@ public class Ship implements Comparable<Ship>{
             dynamicShapeX[i] = (shapePosX+positionX) * Controller.factor;
             dynamicShapeY[i] = (shapePosY+positionY) * Controller.factor;
         }
+        dynamicGunPosX = gunPosX * Math.cos(Math.toRadians(angle)) - gunPosY * Math.sin(Math.toRadians(angle)) + positionX;
+        dynamicGunPosY = gunPosY * Math.cos(Math.toRadians(angle)) + gunPosX * Math.sin(Math.toRadians(angle)) + positionY;
     }
 
     public void updateAngle(){
         //TODO: this
+        angle++;
         angle %= 360;
     }
     public void updateVelR(){
@@ -87,11 +105,12 @@ public class Ship implements Comparable<Ship>{
     public double[] getDynamicShapeX(){
         return dynamicShapeX;
     }
-
     public double[] getDynamicShapeY(){
         return dynamicShapeY;
     }
-
+    public double getDynamicGunPosX(){return dynamicGunPosX;}
+    public double getDynamicGunPosY(){return dynamicGunPosY;}
+    public Color getColor(){return color;}
     public double getSpeed(){
         return speed;
     }
@@ -115,7 +134,9 @@ public class Ship implements Comparable<Ship>{
         return this.name.compareTo(that.name);
     }
 
+    @Override
     public void draw(GraphicsContext gc){
+        gc.setFill(color);
         gc.fillPolygon(dynamicShapeX, dynamicShapeY, dynamicShapeX.length);
     }
 }

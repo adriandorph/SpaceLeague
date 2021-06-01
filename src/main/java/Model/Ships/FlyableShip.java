@@ -1,14 +1,16 @@
 package Model.Ships;
 
+import Model.Shot;
+
 public class FlyableShip extends Ship implements Flyable{
 
-    public FlyableShip(double speed, double turningSpeed, double shootingRate, String className, String name, double[] shapeX, double[] shapeY) {
-        super(speed, turningSpeed, shootingRate, className, name, shapeX, shapeY);
+    public FlyableShip(double speed, double turningAcceleration, double shootingRate, String className, String name, double[] shapeX, double[] shapeY, double gunPosX, double gunPosY, StartPosition startPosition) {
+        super(speed, turningAcceleration, shootingRate, className, name, shapeX, shapeY, gunPosX, gunPosY, startPosition);
     }
 
     @Override
-    public void shoot() {
-
+    public Shot shoot() {
+        return new Shot(color, dynamicGunPosX, dynamicGunPosY, angle);
     }
 
     @Override

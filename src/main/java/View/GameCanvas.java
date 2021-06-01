@@ -1,28 +1,31 @@
 package View;
 
-import Controller.Controller;
-import Model.Ships.Ship;
-import Model.Ships.StartPosition;
+import Model.Ships.Drawable;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 
+import java.util.List;
+
 public class GameCanvas extends Canvas {
     private GraphicsContext gc;
-    public GameCanvas(int width, int height){
+    List<Drawable> Objects;
+
+    public GameCanvas(double width, double height, List<Drawable> objects){
         super(width, height);
         gc = getGraphicsContext2D();
-        update();
+        update(objects);
     }
 
-    public void update(){
+    public void update(List<Drawable> objects){
+
         gc.save();
         gc.setFill(Color.rgb(0,0,0));
         gc.fillRect(0,0, getWidth(), getHeight());
-        gc.setFill(Color.rgb(255,255,255));
-        Ship ship1 = new Ship(1,1,1,"S-class","", new double[]{-10.0, 10.0, 10.0, -10.0}, new double[]{20.0, 20.0, -20.0, -20.0});
-        ship1.startPosition(StartPosition.PLAYER1);
-        ship1.draw(gc);
+        gc.setFill(Color.rgb(255,255,255)); // flyttes ud i draw metoderne
+        for (Drawable object: objects){
+            object.draw(gc);
+        }
         gc.restore();
     }
 }

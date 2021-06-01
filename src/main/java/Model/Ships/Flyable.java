@@ -1,7 +1,9 @@
 package Model.Ships;
 
+import Model.Shot;
+
 public interface Flyable {
-    void shoot();
+    Shot shoot();
     void move();
     void turn();
 }

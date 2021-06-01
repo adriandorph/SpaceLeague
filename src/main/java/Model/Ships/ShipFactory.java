@@ -1,7 +1,6 @@
 package Model.Ships;
 
 import java.util.HashMap;
-import java.util.List;
 
 public class ShipFactory {
     /*
@@ -20,10 +19,13 @@ public class ShipFactory {
         initializeRanks();
     }
 
-    public static Flyable BoxShip(){
-        double[] shapeX = {};
-        double[] shapeY = {};
-        return new FlyableShip(1,1,1,"S-class", "The Box", shapeX, shapeY);
+    public static Ship BoxShip(StartPosition startPosition, boolean flyable){
+        double[] shapeX = {-10.0, 10.0, 10.0, -10.0};
+        double[] shapeY = {20.0, 20.0, -20.0, -20.0};
+        double gunPositionX = 0.0;
+        double gunPositionY = 20.0;
+        if (flyable) return new FlyableShip(1,1,1,"S-class", "The Box", shapeX, shapeY, gunPositionX, gunPositionY, startPosition);
+        else return new Ship(1,1,1,"S-class", "The Box", shapeX, shapeY, gunPositionX, gunPositionY, startPosition);
     }
 
     private void initializeRanks(){
