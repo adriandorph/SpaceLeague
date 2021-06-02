@@ -124,6 +124,10 @@ public class Controller extends javafx.application.Application {
                     e.printStackTrace();
                 }
             }
+            if (key == KeyCode.BACK_SPACE) {
+                Platform.exit();
+                System.exit(0);
+            }
 
         });
         scene.setOnKeyReleased(event -> {

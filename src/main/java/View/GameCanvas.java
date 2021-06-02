@@ -39,6 +39,6 @@ public class GameCanvas extends Canvas {
         gc.setFont(new Font("Roboto", 70 * Controller.factor));
         gc.fillText("GAME OVER", 1280.0 / 2 * Controller.factor, (720.0 / 2 - 25) * Controller.factor);
         gc.setFont(new Font("Roboto", 20 * Controller.factor));
-        gc.fillText("Press \"R\" to restart", 1280.0 / 2 * Controller.factor, (720.0 / 2 + 70) * Controller.factor);
+        gc.fillText("Press R to restart or BACKSPACE to quit", 1280.0 / 2 * Controller.factor, (720.0 / 2 + 70) * Controller.factor);
     }
 }
