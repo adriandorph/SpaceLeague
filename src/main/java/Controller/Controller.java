@@ -2,10 +2,8 @@ package Controller;
 
 import Exceptions.UnfairException;
 import Model.*;
-import Model.Ships.FlyableShip;
 import Model.Ships.Ship;
 import Model.Ships.ShipFactory;
-import Model.Ships.StartPosition;
 import View.GameCanvas;
 import javafx.application.Platform;
 import javafx.geometry.Rectangle2D;
@@ -13,8 +11,12 @@ import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
+
+import java.util.LinkedList;
+import java.util.List;
 
 
 public class Controller extends javafx.application.Application {
@@ -34,7 +36,7 @@ public class Controller extends javafx.application.Application {
     }
 
     @Override
-    public void start(Stage primaryStage) throws UnfairException {
+    public void start(Stage primaryStage) throws Exception {
         model = new Model();
         primaryStage.setResizable(false);
         primaryStage.setOnCloseRequest(e -> {
@@ -43,11 +45,17 @@ public class Controller extends javafx.application.Application {
         });
         Controller.primaryStage = primaryStage;
         setFullScreen();
-        startGame(true, (FlyableShip) ShipFactory.BoxShip(StartPosition.PLAYER1, true), ShipFactory.BoxShip(StartPosition.PLAYER2, false));
+
+        List<Ship> ships = new LinkedList<>();
+        ships.add(ShipFactory.BoxShip(ships.size(), 4, Color.RED));
+        ships.add(ShipFactory.BoxShip(ships.size(), 4, Color.BLUE));
+        ships.add(ShipFactory.BoxShip(ships.size(), 4, Color.LIME));
+        ships.add(ShipFactory.BoxShip(ships.size(), 4, Color.YELLOW));
+        startGame(true, ships, 0);
     }
 
-    public void startGame(boolean host, FlyableShip player1, Ship player2) throws UnfairException {
-        GameField gameField = new GameField(host, player1, player2);
+    public void startGame(boolean host, List<Ship> ships, int indexOfPlayerShip) throws UnfairException {
+        GameField gameField = new GameField(host, ships, indexOfPlayerShip);
         GameCanvas gameCanvas = new GameCanvas(primaryStage.getWidth(), primaryStage.getHeight(), gameField.getAllObjects());
         Game game = new Game(gameCanvas, gameField);
         StackPane background = new StackPane();

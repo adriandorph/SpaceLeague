@@ -20,7 +20,6 @@ public class GameCanvas extends Canvas {
         gc.save();
         gc.setFill(Color.rgb(0,0,0));
         gc.fillRect(0,0, getWidth(), getHeight());
-        gc.setFill(Color.rgb(255,255,255)); // flyttes ud i draw metoderne
         for (Drawable object: objects){
             object.draw(gc);
         }

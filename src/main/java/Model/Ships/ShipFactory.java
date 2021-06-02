@@ -1,5 +1,7 @@
 package Model.Ships;
 
+import javafx.scene.paint.Color;
+
 import java.util.HashMap;
 
 public class ShipFactory {
@@ -19,15 +21,14 @@ public class ShipFactory {
         initializeRanks();
     }
 
-    public static Ship BoxShip(StartPosition startPosition, boolean flyable){
+    public static Ship BoxShip(int startPosition, int numberOfShips, Color color) throws Exception {
         double[] shapeX = {-7.5, 7.5, 10.0, -10.0};
         double[] shapeY = {20.0, 20.0, -20.0, -20.0};
         double[] flameX = {-3, 3, 0};
         double[] flameY = {-22, -22, -28};
         double gunPositionX = 0.0;
         double gunPositionY = 20.0;
-        if (flyable) return new FlyableShip(100,400,0.3,"S-class", "The Box", shapeX, shapeY, flameX, flameY, gunPositionX, gunPositionY, startPosition);
-        else return new Ship(100,400,0.3,"S-class", "The Box", shapeX, shapeY, flameX, flameY, gunPositionX, gunPositionY, startPosition);
+        return new Ship(100,400,0.3,"S-class", "The Box", shapeX, shapeY, flameX, flameY, gunPositionX, gunPositionY, startPosition, numberOfShips, color);
     }
 
     private void initializeRanks(){

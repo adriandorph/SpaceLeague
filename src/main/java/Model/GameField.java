@@ -9,44 +9,59 @@ import java.util.List;
 
 public class GameField {
     private List<Drawable> allObjects;
-    private FlyableShip player1;
-    private Ship player2;
+    private List<Ship> ships;
+    private int indexOfPlayerShip;
     boolean host;
 
-    public GameField(boolean host, FlyableShip player1, Ship player2) throws UnfairException {
-        if (!player1.getClassName().equals(player2.getClassName())) throw new UnfairException();
-        this.player1 = player1;
-        this.player2 = player2;
+    public GameField(boolean host, List<Ship> ships, int indexOfPlayerShip) throws UnfairException {
+        //Check for fairness of ships
+        String className = ships.get(0).getClassName();
+        for (Ship ship: ships){
+            if (!ship.getClassName().equals(className)) throw new UnfairException();
+        }
+        this.indexOfPlayerShip = indexOfPlayerShip;
+        this.ships = ships;
+
     }
 
     public void update(double time){
-        player1.setMoveForward(Controller.moveForward());
-        player1.setTurnLeft(Controller.turnLeft());
-        player1.setTurnRight(Controller.turnRight());
-        player1.setShoot(Controller.shoot());
-        player1.update(time);
-
-        player2.update(time);
-
-        //Shot collisions
-        List<Shot> hitShots = new LinkedList<>();
-        for (Shot shot: player2.getShots()){
-            if (CollisionDetection.isColliding(player1, shot)) hitShots.add(shot);
+        playerInputs(ships.get(indexOfPlayerShip));
+        for (Ship ship: ships){
+            ship.update(time);
         }
-        player2.destroyShots(hitShots);
-        hitShots = new LinkedList<>();
-        for (Shot shot: player1.getShots()){
-            if (CollisionDetection.isColliding(player2, shot)) hitShots.add(shot);
+        shotCollision(ships);
+    }
+
+    private void playerInputs(Ship ship){
+        ship.setMoveForward(Controller.moveForward());
+        ship.setTurnLeft(Controller.turnLeft());
+        ship.setTurnRight(Controller.turnRight());
+        ship.setShoot(Controller.shoot());
+    }
+
+    private void shotCollision(List<Ship> ships){
+        for (Ship ship: ships) {
+            List<Shot> hitShots = new LinkedList<>();
+            for (Ship otherShip: ships){
+                if (otherShip != ship){
+                    for (Shot shot : ship.getShots()) {
+                        if (CollisionDetection.isColliding(otherShip, shot)) {
+                            hitShots.add(shot);
+                            ship.score++;
+                        }
+                    }
+                }
+            }
+            ship.destroyShots(hitShots);
         }
-        player1.destroyShots(hitShots);
     }
 
     public List<Drawable> getAllObjects() {
         allObjects = new LinkedList<>();
-        allObjects.addAll(player1.getShots());
-        allObjects.addAll(player2.getShots());
-        allObjects.add(player1);
-        allObjects.add(player2);
+        for (Ship ship: ships){
+            allObjects.addAll(ship.getShots());
+            allObjects.add(ship);
+        }
         return allObjects;
     }
 }

@@ -3,8 +3,9 @@ import Controller.Controller;
 import Model.Collidable;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.TextAlignment;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -28,6 +29,8 @@ public class Ship implements Comparable<Ship>, Drawable, Collidable {
     private double[] dynamicFlameY;
     protected Color color;
     private List<Shot> shots;
+    public int score;
+    private double scoreX;
 
     protected double velX;
     protected double velY;
@@ -39,12 +42,13 @@ public class Ship implements Comparable<Ship>, Drawable, Collidable {
     private final double gunPosY;
     protected double dynamicGunPosX;
     protected double dynamicGunPosY;
+
     private boolean moveForward;
     private boolean turnLeft;
     private boolean turnRight;
     private boolean shoot;
 
-    public Ship(double speed, double turningAcceleration, double shootingRate, String className, String name, double[] shapeX, double[] shapeY, double[] flameX, double[] flameY, double gunPosX, double gunPosY, StartPosition startPosition){
+    public Ship(double speed, double turningAcceleration, double shootingRate, String className, String name, double[] shapeX, double[] shapeY, double[] flameX, double[] flameY, double gunPosX, double gunPosY, int startPosition, int numberOfShips, Color color) throws Exception {
         this.speed = speed;
         this.turningAcceleration = turningAcceleration;
         this.shootingRate = shootingRate;
@@ -58,6 +62,8 @@ public class Ship implements Comparable<Ship>, Drawable, Collidable {
         this.gunPosX = gunPosX;
         this.gunPosY = gunPosY;
 
+        score = 0;
+        this.color = color;
 
         boundingRadius = 0.0;
         for (int i = 0; i<shapeX.length; i++){
@@ -77,23 +83,85 @@ public class Ship implements Comparable<Ship>, Drawable, Collidable {
         turnRight = false;
         shoot = false;
 
-        startPosition(startPosition);
+        startPosition(startPosition, numberOfShips);
     }
 
-    public void startPosition(StartPosition startPosition){
-        if (startPosition == StartPosition.PLAYER1){
-            positionX = 200;
-            positionY = 200;
-            angle = 0;
-            color = Color.RED;
-        } else if (startPosition == StartPosition.PLAYER2){
-            positionX = 1000;
-            positionY = 200;
-            angle = 0;
-            color = Color.BLUE;
-        } else {
-            positionX = 0;
-            positionY = 0;
+    public void startPosition(int startPosition, int numberOfShips) throws Exception {
+        //Ship and scoreboard layout
+        short scorePadding = 35;
+        switch (numberOfShips){
+            case 2:
+                switch (startPosition) {
+                    case 0 -> {
+                        positionX = 1280.0 / 4;
+                        positionY = 720.0 / 2;
+                        angle = 270;
+                        scoreX = 1280.0 / 2 - scorePadding;
+                    }
+                    case 1 -> {
+                        positionX = 1280.0 * 3 / 4;
+                        positionY = 720.0 / 2;
+                        angle = 90;
+                        scoreX = 1280.0 / 2 + scorePadding;
+                    }
+                    default -> throw new Exception("Start position " + startPosition + " not allowed...");
+                }
+                break;
+            case 3:
+                switch (startPosition) {
+                    case 0 -> {
+                        positionX = 1280.0 / 4;
+                        positionY = 720.0 / 4;
+                        angle = 295;
+                        scoreX = 1280.0 / 2 - 2 * scorePadding;
+                    }
+                    case 1 -> {
+                        positionX = 1280.0 / 2;
+                        positionY = 720.0 * 3/ 4;
+                        angle = 180;
+                        scoreX = 1280.0 / 2;
+                    }
+                    case 2 -> {
+                        positionX = 1280.0 * 3 / 4;
+                        positionY = 720.0 / 4;
+                        angle = 65;
+                        scoreX = 1280.0 / 2 + 2 * scorePadding;
+                    }
+                    default -> throw new Exception("Start position " + startPosition + " not allowed...");
+                }
+                break;
+            case 4:
+                switch (startPosition) {
+                    case 0 -> {
+                        positionX = 1280.0 / 4;
+                        positionY = 720.0 / 4;
+                        angle = 270;
+                        scoreX = 1280.0 / 2 - 3 * scorePadding;
+                    }
+                    case 1 -> {
+                        positionX = 1280.0 * 3 / 4;
+                        positionY = 720.0 / 4;
+                        angle = 90;
+                        scoreX = 1280.0 / 2 - scorePadding;
+                    }
+                    case 2 -> {
+                        positionX = 1280.0 / 4;
+                        positionY = 720.0 * 3 / 4;
+                        angle = 270;
+                        scoreX = 1280.0 / 2 + scorePadding;
+                    }
+                    case 3 -> {
+                        positionX = 1280.0 * 3 / 4;
+                        positionY = 720.0 * 3 / 4;
+                        angle = 90;
+                        scoreX = 1280.0 / 2 + 3 * scorePadding;
+                    }
+                    default -> throw new Exception("Start position " + startPosition + " not allowed...");
+                }
+                break;
+            default:
+                throw new Exception("Too Many ships in the game");
+
         }
         update(0);
     }
@@ -107,8 +175,7 @@ public class Ship implements Comparable<Ship>, Drawable, Collidable {
         detroyShots();
 
         timeSinceLastShoot += time;
-        if (timeSinceLastShoot < shootingRate) canShoot = false;
-        else canShoot = true;
+        canShoot = timeSinceLastShoot >= shootingRate;
         if (canShoot && shoot) shoot();
 
         for(int i = 0; i<shots.size(); i++){
@@ -164,19 +231,19 @@ public class Ship implements Comparable<Ship>, Drawable, Collidable {
 
     public void updatePosition(double time){
         //Boundary detection
-        if (positionY <= 0.0){
+        if (positionY - boundingRadius <= 0.0){
             velY *= -0.2;
-            positionY = 0.1;
-        } else if (positionY >= 720.0) {
+            positionY = 0.1 + boundingRadius;
+        } else if (positionY + boundingRadius >= 720.0) {
             velY *= -0.2;
-            positionY = 719.9;
+            positionY = 719.9 - boundingRadius;
         }
-        if (positionX <= 0.0){
+        if (positionX - boundingRadius <= 0.0){
             velX *= -0.2;
-            positionX = 0.1;
-        } else if(positionX >= 720 * 16.0/9.0) {
+            positionX = 0.1 + boundingRadius;
+        } else if(positionX + boundingRadius >= 720 * 16.0/9.0) {
             velX *= -0.2;
-            positionX = 1279.9;
+            positionX = 1279.9 - boundingRadius;
         }
 
         //position update by speed
@@ -248,6 +315,11 @@ public class Ship implements Comparable<Ship>, Drawable, Collidable {
         gc.setFill(color);
         gc.fillPolygon(dynamicShapeX, dynamicShapeY, dynamicShapeX.length);
         if (moveForward) gc.fillPolygon(dynamicFlameX, dynamicFlameY, dynamicFlameX.length);
+
+        //Score
+        gc.setTextAlign(TextAlignment.CENTER);
+        gc.setFont(new Font("Roboto", 30 * Controller.factor));
+        gc.fillText(Integer.toString(score), scoreX * Controller.factor, 40 * Controller.factor);
     }
 
     public void shoot() {
