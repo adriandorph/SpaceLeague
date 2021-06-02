@@ -4,7 +4,7 @@ import Controller.Controller;
 import Exceptions.UnfairException;
 import Model.Ships.*;
 
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 public class GameField {
@@ -27,10 +27,22 @@ public class GameField {
         player1.update(time);
 
         player2.update(time);
+
+        //Shot collisions
+        List<Shot> hitShots = new LinkedList<>();
+        for (Shot shot: player2.getShots()){
+            if (CollisionDetection.isColliding(player1, shot)) hitShots.add(shot);
+        }
+        player2.destroyShots(hitShots);
+        hitShots = new LinkedList<>();
+        for (Shot shot: player1.getShots()){
+            if (CollisionDetection.isColliding(player2, shot)) hitShots.add(shot);
+        }
+        player1.destroyShots(hitShots);
     }
 
     public List<Drawable> getAllObjects() {
-        allObjects = new ArrayList<>();
+        allObjects = new LinkedList<>();
         allObjects.addAll(player1.getShots());
         allObjects.addAll(player2.getShots());
         allObjects.add(player1);

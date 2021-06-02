@@ -1,15 +1,16 @@
-package Model;
+package Model.Ships;
 
 import Controller.Controller;
-import Model.Ships.Drawable;
+import Model.Collidable;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 
-public class Shot implements Drawable {
+public class Shot implements Drawable, Collidable {
     private static final double[] shapeX= new double[]{-1.0,1.0,1.0,-1.0};
     private static final double[] shapeY= new double[]{5.0, 5.0, 0.0, 0.0};
     private double[] dynamicShapeX;
     private double[] dynamicShapeY;
+    private double boundingRadius;
     private double positionX;
     private double positionY;
     private final double angle;
@@ -25,6 +26,12 @@ public class Shot implements Drawable {
         this.angle = angle;
         velX = speed * Math.cos(Math.toRadians(angle+90)) + shipVelX;//Det virker, ved ikke hvorfor +90;
         velY = speed * Math.sin(Math.toRadians(angle+90)) + shipVelY;
+
+        boundingRadius = 0.0;
+        for (int i = 0; i<shapeX.length; i++){
+            double auxBoundingRadius = Math.sqrt(shapeX[i]*shapeX[i]+shapeY[i]*shapeY[i]);
+            if (auxBoundingRadius > boundingRadius) boundingRadius = auxBoundingRadius;
+        }
     }
 
     public void update(double time){
@@ -53,4 +60,24 @@ public class Shot implements Drawable {
         gc.setFill(color);
         gc.fillPolygon(dynamicShapeX, dynamicShapeY, dynamicShapeX.length);
     }
+
+    //Collidable
+    @Override
+    public double[] getDynamicShapeX(){
+        return dynamicShapeX;
+    }
+    @Override
+    public double[] getDynamicShapeY(){
+        return dynamicShapeY;
+    }
+    @Override
+    public double getPositionX() {
+        return positionX;
+    }
+    @Override
+    public double getPositionY() {
+        return positionY;
+    }
+    @Override
+    public double getBoundingRadius(){return boundingRadius;}
 }

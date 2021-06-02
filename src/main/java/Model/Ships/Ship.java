@@ -1,13 +1,14 @@
 package Model.Ships;
 import Controller.Controller;
-import Model.Shot;
+import Model.Collidable;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
-public class Ship implements Comparable<Ship>, Drawable{
+public class Ship implements Comparable<Ship>, Drawable, Collidable {
     protected final double speed;
     private final double turningAcceleration;
     private final double shootingRate;
@@ -20,6 +21,7 @@ public class Ship implements Comparable<Ship>, Drawable{
     private final double[] shapeY;
     private double[] dynamicShapeX;
     private double[] dynamicShapeY;
+    private double boundingRadius;
     private final double[] flameX;
     private final double[] flameY;
     private double[] dynamicFlameX;
@@ -55,9 +57,17 @@ public class Ship implements Comparable<Ship>, Drawable{
         this.flameY = flameY;
         this.gunPosX = gunPosX;
         this.gunPosY = gunPosY;
+
+
+        boundingRadius = 0.0;
+        for (int i = 0; i<shapeX.length; i++){
+            double auxBoundingRadius = Math.sqrt(shapeX[i]*shapeX[i]+shapeY[i]*shapeY[i]);
+            if (auxBoundingRadius > boundingRadius) boundingRadius = auxBoundingRadius;
+        }
+
         timeSinceLastShoot = 0; //Cooldown fra start
         canShoot = false;
-        shots = new ArrayList<>();
+        shots = new LinkedList<>();
         velR = 0;
         velX = 0;
         velY = 0;
@@ -175,19 +185,37 @@ public class Ship implements Comparable<Ship>, Drawable{
     }
 
     public void detroyShots(){
-        List<Shot> removeObjects = new ArrayList<>();
+        List<Shot> removeObjects = new LinkedList<>();
         for (Shot shot : shots) {
             if (!shot.isInGameField()) removeObjects.add(shot);
         }
         shots.removeAll(removeObjects);
     }
 
+    public void destroyShots(List<Shot> hits){
+        shots.removeAll(hits);
+    }
+
+    //Collidable
+    @Override
     public double[] getDynamicShapeX(){
         return dynamicShapeX;
     }
+    @Override
     public double[] getDynamicShapeY(){
         return dynamicShapeY;
     }
+    @Override
+    public double getPositionX() {
+        return positionX;
+    }
+    @Override
+    public double getPositionY() {
+        return positionY;
+    }
+    @Override
+    public double getBoundingRadius(){return boundingRadius;}
+
     public double getSpeed(){
         return speed;
     }
@@ -203,6 +231,7 @@ public class Ship implements Comparable<Ship>, Drawable{
     public String getClassName() {
         return className;
     }
+
     public List<Shot> getShots(){
         return shots;
     }

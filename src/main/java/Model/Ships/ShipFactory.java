@@ -40,7 +40,6 @@ public class ShipFactory {
         classRanks.put("Aero A-class",5);
         classRanks.put("Aero B-class",6);
         classRanks.put("Aero C-class",7);
-
     }
 
     public static int getRank(String className){
