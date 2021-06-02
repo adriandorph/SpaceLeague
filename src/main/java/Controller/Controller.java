@@ -1,6 +1,5 @@
 package Controller;
 
-import Exceptions.UnfairException;
 import Model.*;
 import Model.Ships.Ship;
 import Model.Ships.ShipFactory;
@@ -21,22 +20,30 @@ import java.util.List;
 
 public class Controller extends javafx.application.Application {
     public Model model;
-    public static ShipFactory shipFactory = new ShipFactory();
     public static double factor = 1.0;   // 1.0 = 720p bruges til skalering.
     private static Stage primaryStage;
+    private Game game;
+    private static boolean fullScreen;
+    private static double windowHeight;
 
     private static boolean moveForward;
     private static boolean turnRight;
     private static boolean turnLeft;
     private static boolean shoot;
 
+    private static boolean moveForward2;
+    private static boolean turnRight2;
+    private static boolean turnLeft2;
+    private static boolean shoot2;
 
     public static void main() {
+        fullScreen = false;
         launch();
     }
 
     @Override
     public void start(Stage primaryStage) throws Exception {
+        ShipFactory.initializeRanks();
         model = new Model();
         primaryStage.setResizable(false);
         primaryStage.setOnCloseRequest(e -> {
@@ -45,25 +52,37 @@ public class Controller extends javafx.application.Application {
         });
         Controller.primaryStage = primaryStage;
         setFullScreen();
+        //setSize(1080);
 
-        List<Ship> ships = new LinkedList<>();
-        ships.add(ShipFactory.BoxShip(ships.size(), 4, Color.RED));
-        ships.add(ShipFactory.BoxShip(ships.size(), 4, Color.BLUE));
-        ships.add(ShipFactory.BoxShip(ships.size(), 4, Color.LIME));
-        ships.add(ShipFactory.BoxShip(ships.size(), 4, Color.YELLOW));
-        startGame(true, ships, 3);
+        startGame(true);
     }
 
-    public void startGame(boolean host, List<Ship> ships, int indexOfPlayerShip) throws UnfairException {
-        GameField gameField = new GameField(host, ships, indexOfPlayerShip);
+    public void startGame(boolean host) throws Exception {
+        List<Ship> ships = new LinkedList<>();
+        ships.add(ShipFactory.MarkIShip(ships.size(), 2, Color.RED));
+        ships.add(ShipFactory.MarkIShip(ships.size(), 2, Color.BLUE));
+        //ships.add(ShipFactory.BoxShip(ships.size(), 3, Color.LIME));
+        //ships.add(ShipFactory.BoxShip(ships.size(), 4, Color.YELLOW));
+
+        //GameField gameField = new GameField(host, ships, indexOfPlayerShip, 120);
+        GameField gameField = new GameField(host, ships, 150);
+
         GameCanvas gameCanvas = new GameCanvas(primaryStage.getWidth(), primaryStage.getHeight(), gameField.getAllObjects(), gameField.getShips());
-        Game game = new Game(gameCanvas, gameField);
+        game = new Game(gameCanvas, gameField);
         StackPane background = new StackPane();
         Scene scene = new Scene(background);
         background.getChildren().add(gameCanvas);
         setKeyInput(scene);
         primaryStage.setScene(scene);
+        if (fullScreen){
+            primaryStage.setFullScreen(true);
+        } else {
+            primaryStage.sizeToScene();
+            setSize(windowHeight);
+        }
+
         primaryStage.show();
+
         game.start();
     }
 
@@ -72,7 +91,7 @@ public class Controller extends javafx.application.Application {
         factor = height / 720.0;
         primaryStage.setHeight(height);
         primaryStage.setWidth(height * 16/9.0);
-        System.out.println(height +" "+ height*16.0/9.0);
+        windowHeight = height;
     }
 
     public static void setFullScreen(){
@@ -81,6 +100,7 @@ public class Controller extends javafx.application.Application {
         setSize(bounds.getHeight()+40);
         primaryStage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
         primaryStage.setFullScreen(true);
+        fullScreen = true;
     }
 
     public void setKeyInput(Scene scene){
@@ -89,17 +109,36 @@ public class Controller extends javafx.application.Application {
             if (key == KeyCode.W) moveForward = true;
             if (key == KeyCode.A) turnLeft = true;
             if (key == KeyCode.D) turnRight = true;
-            if (key == KeyCode.SHIFT) shoot = true;
+            if (key == KeyCode.SPACE) shoot = true;
+
+            if (key == KeyCode.UP) moveForward2 = true;
+            if (key == KeyCode.LEFT) turnLeft2 = true;
+            if (key == KeyCode.RIGHT) turnRight2 = true;
+            if (key == KeyCode.SHIFT) shoot2 = true;
+
+            if (key == KeyCode.R) {
+                try {
+                    game = null;
+                    startGame(true);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
         });
         scene.setOnKeyReleased(event -> {
             KeyCode key = event.getCode();
             if (key == KeyCode.W) moveForward = false;
             if (key == KeyCode.A) turnLeft = false;
             if (key == KeyCode.D) turnRight = false;
-            if (key == KeyCode.SHIFT) shoot = false;
+            if (key == KeyCode.SPACE) shoot = false;
+
+            if (key == KeyCode.UP) moveForward2 = false;
+            if (key == KeyCode.LEFT) turnLeft2 = false;
+            if (key == KeyCode.RIGHT) turnRight2 = false;
+            if (key == KeyCode.SHIFT) shoot2 = false;
         });
     }
-
 
     public static boolean moveForward() {
         return moveForward;
@@ -115,5 +154,21 @@ public class Controller extends javafx.application.Application {
 
     public static boolean shoot() {
         return shoot;
+    }
+
+    public static boolean moveForward2() {
+        return moveForward2;
+    }
+
+    public static boolean turnRight2() {
+        return turnRight2;
+    }
+
+    public static boolean turnLeft2() {
+        return turnLeft2;
+    }
+
+    public static boolean shoot2() {
+        return shoot2;
     }
 }

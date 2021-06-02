@@ -21,11 +21,12 @@ public class Game implements Runnable {
     }
 
     public void stop(){
-
+        running = false;
+        System.out.println("Game stopping...");
     }
 
     public void dispose(){
-
+        gameCanvas.gameOver();
     }
 
     public void run(){
@@ -56,7 +57,9 @@ public class Game implements Runnable {
                 render = true;
                 //TODO: update game
                 gameField.update(FPS);//I sekunder
-
+                if (gameField.getGameTime() <= 0.0){
+                    stop();
+                }
 
                 if (frameTime >= 1){
                     frameTime = 0;
@@ -78,6 +81,7 @@ public class Game implements Runnable {
                 }
             }
         }
-        System.out.println("Game ended??");
+        System.out.println("Game ended");
+        dispose();
     }
 }
