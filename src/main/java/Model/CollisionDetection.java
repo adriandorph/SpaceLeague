@@ -7,9 +7,13 @@ public class CollisionDetection {
         double distanceX = Math.abs(one.getPositionX() - two.getPositionX());
         double distanceY = Math.abs(one.getPositionY() - two.getPositionY());
         if (Math.sqrt(distanceX*distanceX + distanceY*distanceY) <= one.getBoundingRadius() + two.getBoundingRadius()){
-            //Complex test   - 35:08 in the video
-            return true;
+            return isCollidingNoBoundary();
         }
         return false;
+    }
+
+    public static boolean isCollidingNoBoundary(){
+        //Complex test   - 35:08 in the video
+        return true;
     }
 }

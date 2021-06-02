@@ -8,7 +8,6 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class GameField {
-    private List<Drawable> allObjects;
     private List<Ship> ships;
     private int indexOfPlayerShip;
     boolean host;
@@ -56,8 +55,11 @@ public class GameField {
         }
     }
 
+    public List<Ship> getShips(){
+        return ships;
+    }
     public List<Drawable> getAllObjects() {
-        allObjects = new LinkedList<>();
+        List<Drawable> allObjects = new LinkedList<>();
         for (Ship ship: ships){
             allObjects.addAll(ship.getShots());
             allObjects.add(ship);

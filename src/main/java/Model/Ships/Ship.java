@@ -231,6 +231,7 @@ public class Ship implements Comparable<Ship>, Drawable, Collidable {
 
     public void updatePosition(double time){
         //Boundary detection
+        //TODO: Check all dynamic x and y coordinates instead of just position.
         if (positionY - boundingRadius <= 0.0){
             velY *= -0.2;
             positionY = 0.1 + boundingRadius;
@@ -310,6 +311,13 @@ public class Ship implements Comparable<Ship>, Drawable, Collidable {
         return this.name.compareTo(that.name);
     }
 
+    public void drawScore(GraphicsContext gc){
+        gc.setFill(color);
+        gc.setTextAlign(TextAlignment.CENTER);
+        gc.setFont(new Font("Roboto", 30 * Controller.factor));
+        gc.fillText(Integer.toString(score), scoreX * Controller.factor, 40 * Controller.factor);
+    }
+
     @Override
     public void draw(GraphicsContext gc){
         gc.setFill(color);
@@ -317,9 +325,6 @@ public class Ship implements Comparable<Ship>, Drawable, Collidable {
         if (moveForward) gc.fillPolygon(dynamicFlameX, dynamicFlameY, dynamicFlameX.length);
 
         //Score
-        gc.setTextAlign(TextAlignment.CENTER);
-        gc.setFont(new Font("Roboto", 30 * Controller.factor));
-        gc.fillText(Integer.toString(score), scoreX * Controller.factor, 40 * Controller.factor);
     }
 
     public void shoot() {

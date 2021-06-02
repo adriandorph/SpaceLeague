@@ -51,12 +51,12 @@ public class Controller extends javafx.application.Application {
         ships.add(ShipFactory.BoxShip(ships.size(), 4, Color.BLUE));
         ships.add(ShipFactory.BoxShip(ships.size(), 4, Color.LIME));
         ships.add(ShipFactory.BoxShip(ships.size(), 4, Color.YELLOW));
-        startGame(true, ships, 0);
+        startGame(true, ships, 3);
     }
 
     public void startGame(boolean host, List<Ship> ships, int indexOfPlayerShip) throws UnfairException {
         GameField gameField = new GameField(host, ships, indexOfPlayerShip);
-        GameCanvas gameCanvas = new GameCanvas(primaryStage.getWidth(), primaryStage.getHeight(), gameField.getAllObjects());
+        GameCanvas gameCanvas = new GameCanvas(primaryStage.getWidth(), primaryStage.getHeight(), gameField.getAllObjects(), gameField.getShips());
         Game game = new Game(gameCanvas, gameField);
         StackPane background = new StackPane();
         Scene scene = new Scene(background);

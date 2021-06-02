@@ -68,7 +68,7 @@ public class Game implements Runnable {
 
             if (render){
                 //TODO: render game
-                gameCanvas.update(gameField.getAllObjects());
+                gameCanvas.update(gameField.getAllObjects(), gameField.getShips());
                 frames++;
             } else { //Nothing to do, so wait a bit before running through the running loop again.
                 try {
