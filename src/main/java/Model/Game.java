@@ -32,21 +32,16 @@ public class Game implements Runnable {
     public void run(){
 
         running = true;
-
-        boolean render = false;
-        double firstTime = 0;
         double lastTime = System.nanoTime() / 1000000000.0; // 1 = 1 second
-        double passedTime = 0;
         double unprocessedTime = 0;
 
         double frameTime = 0;
         int frames = 0;
-        int fpsActual = 0;
 
         while (running){
-            render = false;
-            firstTime = System.nanoTime() / 1000000000.0;
-            passedTime = firstTime - lastTime;
+            boolean render = false;
+            double firstTime = System.nanoTime() / 1000000000.0;
+            double passedTime = firstTime - lastTime;
             lastTime = firstTime;
 
             unprocessedTime += passedTime;
@@ -63,7 +58,7 @@ public class Game implements Runnable {
 
                 if (frameTime >= 1){
                     frameTime = 0;
-                    fpsActual = frames;
+                    int fpsActual = frames;
                     frames = 0;
                     //System.out.println("FPS: "+ fpsActual);
                 }
