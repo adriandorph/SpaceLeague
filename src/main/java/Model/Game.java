@@ -55,7 +55,7 @@ public class Game implements Runnable {
             while(unprocessedTime >= FPS){
                 unprocessedTime -= FPS;
                 render = true;
-                //TODO: update game
+                //update game
                 gameField.update(FPS);//I sekunder
                 if (gameField.getGameTime() <= 0.0){
                     stop();
@@ -70,15 +70,21 @@ public class Game implements Runnable {
             }
 
             if (render){
-                //TODO: render game
+                //render game
                 gameCanvas.update(gameField.getAllObjects(), gameField.getShips());
                 frames++;
+
             } else { //Nothing to do, so wait a bit before running through the running loop again.
+                     //Decreases CPU load by around 85%
                 try {
-                    Thread.sleep(1);
+                    Thread.sleep(0,500);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
+
+
+
+
             }
         }
         System.out.println("Game ended");

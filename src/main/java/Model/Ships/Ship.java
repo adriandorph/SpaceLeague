@@ -48,7 +48,9 @@ public class Ship implements Comparable<Ship>, Drawable, Collidable {
     private boolean turnRight;
     private boolean shoot;
 
-    public Ship(double speed, double turningAcceleration, double shootingRate, String className, String name, double[] shapeX, double[] shapeY, double[] flameX, double[] flameY, double gunPosX, double gunPosY, int startPosition, int numberOfShips, Color color) throws Exception {
+    private final boolean noob;
+
+    public Ship(double speed, double turningAcceleration, double shootingRate, String className, String name, double[] shapeX, double[] shapeY, double[] flameX, double[] flameY, double gunPosX, double gunPosY, int startPosition, int numberOfShips, Color color, boolean noob) throws Exception {
         this.speed = speed;
         this.turningAcceleration = turningAcceleration;
         this.shootingRate = shootingRate;
@@ -61,6 +63,7 @@ public class Ship implements Comparable<Ship>, Drawable, Collidable {
         this.flameY = flameY;
         this.gunPosX = gunPosX;
         this.gunPosY = gunPosY;
+        this.noob = noob;
 
         score = 0;
         this.color = color;
@@ -163,7 +166,7 @@ public class Ship implements Comparable<Ship>, Drawable, Collidable {
                 throw new Exception("Too Many ships in the game");
 
         }
-        update(0);
+        update(0);//Initial update.
     }
 
     public void update(double time){
@@ -219,9 +222,14 @@ public class Ship implements Comparable<Ship>, Drawable, Collidable {
         } else angle %= 360;
     }
     public void updateVelR(double time, boolean left, boolean right){
-        //TODO: this{
+        //TODO: this
             if (right) velR += turningAcceleration * time;
             if (left) velR -= turningAcceleration * time;
+            if (noob && !right && !left){
+                if (velR > 0.001) velR -= turningAcceleration * time * 0.5;
+                else if (velR < -0.001 ) velR += turningAcceleration * time * 0.5;
+                else velR = 0;
+            }
     }
 
     public void updateVelocity(double time){

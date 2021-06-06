@@ -59,8 +59,8 @@ public class Controller extends javafx.application.Application {
 
     public void startGame(boolean host) throws Exception {
         List<Ship> ships = new LinkedList<>();
-        ships.add(ShipFactory.MarkIShip(ships.size(), 2, Color.RED));
-        ships.add(ShipFactory.MarkIShip(ships.size(), 2, Color.BLUE));
+        ships.add(ShipFactory.MarkIShip(ships.size(), 2, Color.RED, false));
+        ships.add(ShipFactory.MarkIShip(ships.size(), 2, Color.BLUE, true));
         //ships.add(ShipFactory.BoxShip(ships.size(), 3, Color.LIME));
         //ships.add(ShipFactory.BoxShip(ships.size(), 4, Color.YELLOW));
 
@@ -86,7 +86,7 @@ public class Controller extends javafx.application.Application {
         game.start();
     }
 
-    public static void setSize(double height){//Skal være i canvas
+    public static void setSize(double height){
         primaryStage.setFullScreen(false);
         factor = height / 720.0;
         primaryStage.setHeight(height);
