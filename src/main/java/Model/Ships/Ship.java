@@ -1,6 +1,8 @@
 package Model.Ships;
 import Controller.Controller;
 import Model.Collidable;
+import Model.CollisionDetection;
+import Model.Direction;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -239,20 +241,20 @@ public class Ship implements Comparable<Ship>, Drawable, Collidable {
 
     public void updatePosition(double time){
         //Boundary detection
-        //TODO: Check all dynamic x and y coordinates instead of just position.
-        if (positionY - boundingRadius <= 0.0){
+        Direction wall = CollisionDetection.wallCollisionDirection(this);
+        if (wall == Direction.NORTH && velY < 0){
             velY *= -0.2;
-            positionY = 0.1 + boundingRadius;
-        } else if (positionY + boundingRadius >= 720.0) {
+            //positionY += 1;
+        } else if (wall == Direction.SOUTH && velY > 0) {
             velY *= -0.2;
-            positionY = 719.9 - boundingRadius;
+            //positionY -= 1;
         }
-        if (positionX - boundingRadius <= 0.0){
+        if (wall == Direction.WEST && velX < 0){
             velX *= -0.2;
-            positionX = 0.1 + boundingRadius;
-        } else if(positionX + boundingRadius >= 720 * 16.0/9.0) {
+            //positionX += 1;
+        } else if(wall == Direction.EAST && velX > 0) {
             velX *= -0.2;
-            positionX = 1279.9 - boundingRadius;
+            //positionX -= 1;
         }
 
         //position update by speed

@@ -72,7 +72,7 @@ public class GameField {
             for (Ship otherShip: ships){
                 if (otherShip != ship){
                     for (Shot shot : ship.getShots()) {
-                        if (CollisionDetection.isColliding(otherShip, shot)) {
+                        if (CollisionDetection.isColliding(shot, otherShip)) {
                             hitShots.add(shot);
                             ship.score++;
                         }
