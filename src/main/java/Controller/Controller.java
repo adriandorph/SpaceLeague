@@ -51,19 +51,18 @@ public class Controller extends javafx.application.Application {
             System.exit(0);
         });
         Controller.primaryStage = primaryStage;
-        setFullScreen();
-        //setSize(1080);
+        //setFullScreen();
+        setSize(720);
 
         startGame(true);
     }
 
     public void startGame(boolean host) throws Exception {
         List<Ship> ships = new LinkedList<>();
-        ships.add(ShipFactory.MarkIShip(ships.size(), 2, Color.RED, false));
-        ships.add(ShipFactory.MarkIShip(ships.size(), 2, Color.BLUE, true));
+        ships.add(ShipFactory.MarkIIShip(ships.size(), 2, Color.RED, true));
+        ships.add(ShipFactory.MarkIIShip(ships.size(), 2, Color.LIME, true));
         //ships.add(ShipFactory.BoxShip(ships.size(), 3, Color.LIME));
         //ships.add(ShipFactory.BoxShip(ships.size(), 4, Color.YELLOW));
-
         //GameField gameField = new GameField(host, ships, indexOfPlayerShip, 120);
         GameField gameField = new GameField(host, ships, 150);
 

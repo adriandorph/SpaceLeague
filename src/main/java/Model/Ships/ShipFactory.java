@@ -37,7 +37,18 @@ public class ShipFactory {
         double[] flameY = {-17, -17, -30};
         double gunPositionX = 0.0;
         double gunPositionY = 24.0;
-        return new Ship(200,400,0.3,"S-class", "The Box", shapeX, shapeY, flameX, flameY, gunPositionX, gunPositionY, startPosition, numberOfShips, color, noob);
+        return new Ship(200,400,0.3,"S-class", "Mark I", shapeX, shapeY, flameX, flameY, gunPositionX, gunPositionY, startPosition, numberOfShips, color, noob);
+    }
+
+    public static Ship MarkIIShip(int startPosition, int numberOfShips, Color color, boolean noob) throws Exception {
+        if (!isInitialized) {initializeRanks(); isInitialized = true;}
+        double[] shapeX = {0.0,   4.0, 5.0,  5.3, 4.7, 5.5,   8.5, 14.0, 16.9, 13.2,  4.2,   3.2,   2.4,   2.0,   -2.0, -2.4, -3.2, -4.2, -13.2, -16.9, -14.0, -8.5, -5.5, -4.7, -5.3, -5.0, -4.0};
+        double[] shapeY = {21.5, 14.0, 13.5, 8.9, 7.8, -2.7, -3.5, 10.0, 8.24, -10.0, -13.3, -14.6, -14.6, -15.5, -15.5, -14.6, -14.6, -13.3, -10.0, 8.24, 10.0, -3.5, -2.7, 7.8, 8.9, 13.5, 14.0};
+        double[] flameX = {-2.5, 2.5, 0};
+        double[] flameY = {-17, -17, -30};
+        double gunPositionX = 0.0;
+        double gunPositionY = 24.0;
+        return new Ship(200,400,0.3,"S-class", "Mark II", shapeX, shapeY, flameX, flameY, gunPositionX, gunPositionY, startPosition, numberOfShips, color, noob);
     }
 
     public static void initializeRanks(){
