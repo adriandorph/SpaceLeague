@@ -12,7 +12,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class Ship implements Comparable<Ship>, Drawable, Collidable {
-    protected final double speed;
+    protected final double acceleration;
     private final double turningAcceleration;
     private final double shootingRate;
     private double timeSinceLastShoot; // i sekunder
@@ -52,8 +52,8 @@ public class Ship implements Comparable<Ship>, Drawable, Collidable {
 
     private final boolean noob;
 
-    public Ship(double speed, double turningAcceleration, double shootingRate, String className, String name, double[] shapeX, double[] shapeY, double[] flameX, double[] flameY, double gunPosX, double gunPosY, int startPosition, int numberOfShips, Color color, boolean noob) throws Exception {
-        this.speed = speed;
+    public Ship(double acceleration, double turningAcceleration, double shootingRate, String className, String name, double[] shapeX, double[] shapeY, double[] flameX, double[] flameY, double gunPosX, double gunPosY, int startPosition, int numberOfShips, Color color, boolean noob) throws Exception {
+        this.acceleration = acceleration;
         this.turningAcceleration = turningAcceleration;
         this.shootingRate = shootingRate;
         this.classRank = ShipFactory.getRank(className);
@@ -235,8 +235,8 @@ public class Ship implements Comparable<Ship>, Drawable, Collidable {
     }
 
     public void updateVelocity(double time){
-        velX += time * speed * Math.cos(Math.toRadians(angle+90));
-        velY += time * speed * Math.sin(Math.toRadians(angle+90));
+        velX += time * acceleration * Math.cos(Math.toRadians(angle+90));
+        velY += time * acceleration * Math.sin(Math.toRadians(angle+90));
     }
 
     public void updatePosition(double time){
@@ -294,8 +294,8 @@ public class Ship implements Comparable<Ship>, Drawable, Collidable {
     @Override
     public double getBoundingRadius(){return boundingRadius;}
 
-    public double getSpeed(){
-        return speed;
+    public double getAcceleration(){
+        return acceleration;
     }
     public double getTurningAcceleration(){
         return turningAcceleration;
@@ -333,13 +333,19 @@ public class Ship implements Comparable<Ship>, Drawable, Collidable {
         gc.setFill(color);
         gc.fillPolygon(dynamicShapeX, dynamicShapeY, dynamicShapeX.length);
         if (moveForward) gc.fillPolygon(dynamicFlameX, dynamicFlameY, dynamicFlameX.length);
-
-        //Score
     }
 
     public void shoot() {
         shots.add(new Shot(color, dynamicGunPosX, dynamicGunPosY, angle, velX, velY));
         timeSinceLastShoot = 0;
+    }
+
+    public double getSpeed(){
+        return Math.sqrt(velX * velX + velY * velY);
+    }
+
+    public double getAngle(){
+        return angle;
     }
 
     public void setMoveForward(boolean moveForward) {
