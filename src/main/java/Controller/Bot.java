@@ -22,7 +22,12 @@ public abstract class Bot {
     }
 
     protected double relativeAngle(double targetPosX, double targetPosY){
-        double relativeAngle = angleToTarget(targetPosX, targetPosY) - ship.getAngle();
+        return deltaAngle(ship.getAngle(), angleToTarget(targetPosX, targetPosY));
+
+    }
+
+    public static double deltaAngle(double from, double to){
+        double relativeAngle = to - from;
         boolean negative = relativeAngle < 0;
 
         relativeAngle = Math.abs(relativeAngle);
@@ -35,7 +40,7 @@ public abstract class Bot {
         return relativeAngle;
     }
 
-    private double angleToTarget(double targetPosX, double targetPosY){
+    public double angleToTarget(double targetPosX, double targetPosY){
         double relativeX = targetPosX - ship.getPositionX();
         double relativeY = targetPosY - ship.getPositionY();
         return vectorAngle(relativeX, relativeY);

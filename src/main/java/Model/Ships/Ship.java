@@ -348,6 +348,14 @@ public class Ship implements Comparable<Ship>, Drawable, Collidable {
         return velR;
     }
 
+    public double getVelX(){
+        return velX;
+    }
+
+    public double getVelY(){
+        return velY;
+    }
+
     public double getAngle(){
         return angle;
     }
