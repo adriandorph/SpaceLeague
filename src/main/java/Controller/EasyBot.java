@@ -32,7 +32,7 @@ public class EasyBot extends Bot {
 
     private void updateMoveForward(Ship target){
         //If speed is low or goind the wrong direction and target is not too close and ship is pointing somewhat in the right direction
-        if ((ship.getSpeed() < ship.getAcceleration() || goingOppositeDirection(target)) && //TODO: add: or going opposite/wrong direction
+        if ((ship.getSpeed() < ship.getAcceleration() || goingOppositeDirection(target)) &&
             distanceToTarget(target) > 100 && Math.abs(relativeAngle(target.getPositionX(), target.getPositionY())) < 50){
             moveForward = true;
         } else moveForward = false;
