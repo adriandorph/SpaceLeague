@@ -59,9 +59,8 @@ public class Controller extends javafx.application.Application {
 
     public void startGame(boolean host) throws Exception {
         List<Ship> ships = new LinkedList<>();
-        ships.add(ShipFactory.AlexI(ships.size(), 2, Color.RED, true));
-        Ship botship = ShipFactory.MarkIIShip(ships.size(), 2, Color.LIME, false);
-        ships.add(botship);
+        ships.add(ShipFactory.MarkIShip(ships.size(), 2, Color.RED, true));
+        ships.add(ShipFactory.MarkIShip(ships.size(), 2, Color.LIME, false));
         //ships.add(ShipFactory.BoxShip(ships.size(), 3, Color.LIME));
         //ships.add(ShipFactory.BoxShip(ships.size(), 4, Color.YELLOW));
         //GameField gameField = new GameField(host, ships, indexOfPlayerShip, 120);
