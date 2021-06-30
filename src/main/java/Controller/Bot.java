@@ -56,6 +56,4 @@ public abstract class Bot {
             return -vectorAngle;
         }
     }
-
-
 }
