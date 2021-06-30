@@ -41,7 +41,6 @@ public class EasyBot extends Bot {
     private void updateTurning(Ship target){
         //If relative angle is to the left or right turn left or right
         double relativeAngle = relativeAngle(target.getPositionX(), target.getPositionY());
-        System.out.println(relativeAngle);
         if (relativeAngle > 50 && ship.getVelR() < 100) turnRight = true;
         else if (relativeAngle < -50 && ship.getVelR() > -100) turnLeft = true;
         else {

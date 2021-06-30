@@ -51,8 +51,8 @@ public class Controller extends javafx.application.Application {
             System.exit(0);
         });
         Controller.primaryStage = primaryStage;
-        //setFullScreen();
-        setSize(720);
+        setFullScreen();
+        //setSize(720);
 
         startGame(true);
     }
