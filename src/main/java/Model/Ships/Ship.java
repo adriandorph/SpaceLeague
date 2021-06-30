@@ -344,6 +344,10 @@ public class Ship implements Comparable<Ship>, Drawable, Collidable {
         return Math.sqrt(velX * velX + velY * velY);
     }
 
+    public double getVelR(){
+        return velR;
+    }
+
     public double getAngle(){
         return angle;
     }

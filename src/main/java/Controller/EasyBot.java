@@ -23,6 +23,11 @@ public class EasyBot extends Bot {
         updateMoveForward(target);
         updateTurning(target);
         updateShoot(target);
+
+        ship.setMoveForward(moveForward);
+        ship.setTurnRight(turnRight);
+        ship.setTurnLeft(turnLeft);
+        ship.setShoot(shoot);
     }
 
     private void updateMoveForward(Ship target){
@@ -36,12 +41,19 @@ public class EasyBot extends Bot {
     private void updateTurning(Ship target){
         //If relative angle is to the left or right turn left or right
         double relativeAngle = relativeAngle(target.getPositionX(), target.getPositionY());
+        if (relativeAngle > 20 && ship.getVelR() < 50) turnRight = true;
+        else if (relativeAngle < -20 && ship.getVelR() > -50) turnLeft = true;
+        else {
+            turnLeft = false;
+            turnRight = false;
+        }
 
     }
 
     private void updateShoot(Ship target){
         //If ship is pointing at target
-        if (relativeAngle(target.getPositionX(), target.getPositionY()) < 20 ) shoot = true;
+        double relativeAngle = relativeAngle(target.getPositionX(), target.getPositionY());
+        if (relativeAngle < 20 ||  relativeAngle > 340) shoot = true;
         else shoot = false;
     }
 }

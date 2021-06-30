@@ -60,11 +60,12 @@ public class Controller extends javafx.application.Application {
     public void startGame(boolean host) throws Exception {
         List<Ship> ships = new LinkedList<>();
         ships.add(ShipFactory.AlexI(ships.size(), 2, Color.RED, true));
-        ships.add(ShipFactory.MarkIIShip(ships.size(), 2, Color.LIME, true));
+        Ship botship = ShipFactory.MarkIIShip(ships.size(), 2, Color.LIME, false);
+        ships.add(botship);
         //ships.add(ShipFactory.BoxShip(ships.size(), 3, Color.LIME));
         //ships.add(ShipFactory.BoxShip(ships.size(), 4, Color.YELLOW));
         //GameField gameField = new GameField(host, ships, indexOfPlayerShip, 120);
-        GameField gameField = new GameField(host, ships, 150);
+        GameField gameField = new GameField(host, ships, 0, 150);
 
         GameCanvas gameCanvas = new GameCanvas(primaryStage.getWidth(), primaryStage.getHeight(), gameField.getAllObjects(), gameField.getShips());
         game = new Game(gameCanvas, gameField);

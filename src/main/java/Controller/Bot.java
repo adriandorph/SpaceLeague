@@ -16,22 +16,6 @@ public abstract class Bot {
 
     public abstract void update(Ship[] opponents);
 
-    public boolean moveForward(){
-        return moveForward;
-    }
-
-    public boolean turnRight(){
-        return turnRight;
-    }
-
-    public boolean turnLeft(){
-        return turnLeft;
-    }
-
-    public boolean shoot(){
-        return shoot;
-    }
-
     protected double distanceToTarget(Ship target){
         return Math.sqrt((ship.getPositionX() - target.getPositionX()) * (ship.getPositionX() - target.getPositionX())
                 + (ship.getPositionY() - target.getPositionY()) * (ship.getPositionY() - target.getPositionY()));
@@ -48,12 +32,25 @@ public abstract class Bot {
         }
 
         if (negative) relativeAngle *= -1;
-
         return relativeAngle;
     }
 
     private double angleToTarget(double targetPosX, double targetPosY){
-        //Math.atan2(compare.y, compare.x)
-        return 0;
+        double relativeX = targetPosX - ship.getPositionX();
+        double relativeY = targetPosY - ship.getPositionY();
+        return vectorAngle(relativeX, relativeY);
     }
+
+    public static double vectorAngle(double x, double y){ //0 degrees is south which means +y direction and angle is clockwise
+        double vectorAngle = Math.toDegrees(Math.atan(x/y));
+        if (x >= 0 && y >= 0){ //First quadrant
+            return 360 - vectorAngle;
+        } else if ((x >= 0 && y <= 0)||(x <= 0 && y <= 0)){ //Second and third quadrant
+            return 180 - vectorAngle;
+        } else { //Fourth quadrant
+            return -vectorAngle;
+        }
+    }
+
+
 }
