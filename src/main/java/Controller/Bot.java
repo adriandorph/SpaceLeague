@@ -23,7 +23,6 @@ public abstract class Bot {
 
     protected double relativeAngle(double targetPosX, double targetPosY){
         return deltaAngle(ship.getAngle(), angleToTarget(targetPosX, targetPosY));
-
     }
 
     public static double deltaAngle(double from, double to){

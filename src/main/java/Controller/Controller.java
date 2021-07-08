@@ -43,7 +43,6 @@ public class Controller extends javafx.application.Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        ShipFactory.initializeRanks();
         model = new Model();
         primaryStage.setResizable(false);
         primaryStage.setOnCloseRequest(e -> {
@@ -57,12 +56,17 @@ public class Controller extends javafx.application.Application {
         startGame(true);
     }
 
+
+
+
+
+
     public void startGame(boolean host) throws Exception {
         List<Ship> ships = new LinkedList<>();
-        ships.add(ShipFactory.MarkIShip(0, 2, Color.RED, true));
-        ships.add(ShipFactory.MarkIShip(ships.size(), 2, Color.LIME, false));
-        //ships.add(ShipFactory.MarkIShip(ships.size(), 3, Color.AQUA, false));
-        //ships.add(ShipFactory.MarkIShip(ships.size(), 4, Color.YELLOW, false));
+        ships.add(ShipFactory.MarkIShip(0, 4, Color.RED, true));
+        ships.add(ShipFactory.MarkIIShip(ships.size(), 4, Color.LIME, false));
+        ships.add(ShipFactory.AlexI(ships.size(), 4, Color.AQUA, false));
+        ships.add(ShipFactory.BoxShip(ships.size(), 4, Color.YELLOW, false));
 
         GameField gameField = new GameField(host, ships, 0, 150);
 
@@ -73,16 +77,20 @@ public class Controller extends javafx.application.Application {
         background.getChildren().add(gameCanvas);
         setKeyInput(scene);
         primaryStage.setScene(scene);
+        sizingAfterNewScene();
+
+        primaryStage.show();
+
+        game.start();
+    }
+
+    private static void sizingAfterNewScene(){
         if (fullScreen){
             primaryStage.setFullScreen(true);
         } else {
             primaryStage.sizeToScene();
             setSize(windowHeight);
         }
-
-        primaryStage.show();
-
-        game.start();
     }
 
     public static void setSize(double height){
