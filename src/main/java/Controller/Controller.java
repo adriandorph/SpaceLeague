@@ -43,7 +43,7 @@ public class Controller extends javafx.application.Application {
     }
 
     @Override
-    public void start(Stage primaryStage) throws Exception {
+    public void start(Stage primaryStage) {
         model = new Model();
         primaryStage.setResizable(false);
         primaryStage.setOnCloseRequest(e -> {
@@ -55,15 +55,13 @@ public class Controller extends javafx.application.Application {
         //setSize(720);
 
         mainMenu();
-        //startGame(true);
     }
-
 
     public void mainMenu(){
         StackPane background = new StackPane();
         Scene scene = new Scene(background);
         scene.setFill(Color.BLACK);
-        Menu.initializeMainMenu(background, primaryStage.getWidth(), primaryStage.getHeight(), this);
+        Menu.initializeMainMenu(scene, background, primaryStage.getWidth(), primaryStage.getHeight(), this);
         primaryStage.setScene(scene);
         sizingAfterNewScene();
         primaryStage.show();
@@ -105,6 +103,7 @@ public class Controller extends javafx.application.Application {
     }
 
     public static void setSize(double height){
+        if (!fullScreen && (height < 720 || height > 2160)) throw new RuntimeException("The window size has to be within 720p - 2160p");
         primaryStage.setFullScreen(false);
         factor = height / 720.0;
         primaryStage.setHeight(height);
