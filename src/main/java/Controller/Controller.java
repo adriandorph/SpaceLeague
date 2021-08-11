@@ -4,6 +4,7 @@ import Model.*;
 import Model.Ships.Ship;
 import Model.Ships.ShipFactory;
 import View.GameCanvas;
+import View.Menu;
 import javafx.application.Platform;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
@@ -53,10 +54,20 @@ public class Controller extends javafx.application.Application {
         setFullScreen();
         //setSize(720);
 
-        startGame(true);
+        mainMenu();
+        //startGame(true);
     }
 
 
+    public void mainMenu(){
+        StackPane background = new StackPane();
+        Scene scene = new Scene(background);
+        scene.setFill(Color.BLACK);
+        Menu.initializeMainMenu(background, primaryStage.getWidth(), primaryStage.getHeight(), this);
+        primaryStage.setScene(scene);
+        sizingAfterNewScene();
+        primaryStage.show();
+    }
 
 
 
@@ -75,7 +86,7 @@ public class Controller extends javafx.application.Application {
         StackPane background = new StackPane();
         Scene scene = new Scene(background);
         background.getChildren().add(gameCanvas);
-        setKeyInput(scene);
+        setGameKeyInput(scene);
         primaryStage.setScene(scene);
         sizingAfterNewScene();
 
@@ -110,7 +121,7 @@ public class Controller extends javafx.application.Application {
         fullScreen = true;
     }
 
-    public void setKeyInput(Scene scene){
+    public void setGameKeyInput(Scene scene){
         scene.setOnKeyPressed(event -> {
             KeyCode key = event.getCode();
             if (key == KeyCode.W) moveForward = true;
@@ -131,9 +142,9 @@ public class Controller extends javafx.application.Application {
                     e.printStackTrace();
                 }
             }
-            if (key == KeyCode.BACK_SPACE) {
-                Platform.exit();
-                System.exit(0);
+            if (key == KeyCode.ESCAPE) {
+                game = null;
+                mainMenu();
             }
 
         });
