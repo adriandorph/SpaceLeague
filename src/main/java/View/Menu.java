@@ -52,7 +52,7 @@ public class Menu {
         Font font = new Font("Calibri", fontSize);
 
         Button playButton = new Button("Play");
-        Button hangerButton = new Button("Hanger");
+        Button hangarButton = new Button("Hangar");
         Button profileButton = new Button("Profile");
         Button friendsButton = new Button("Friends");
         Button settingsButton = new Button("Settings");
@@ -70,8 +70,8 @@ public class Menu {
              */
         });
 
-        hangerButton.setOnAction(e ->{
-            System.out.println("Hanger");
+        hangarButton.setOnAction(e ->{
+            System.out.println("Hangar");
         });
 
         profileButton.setOnAction(e ->{
@@ -94,24 +94,24 @@ public class Menu {
 
 
         //Button width
-        for (Button button : Arrays.asList(playButton, hangerButton, profileButton, friendsButton, settingsButton, exitButton)) {
+        for (Button button : Arrays.asList(playButton, hangarButton, profileButton, friendsButton, settingsButton, exitButton)) {
             button.setPrefWidth(width * 0.2);
         }
 
 
         //Button height
-        for (Button button : Arrays.asList(playButton, hangerButton, profileButton, friendsButton, settingsButton, exitButton)) {
+        for (Button button : Arrays.asList(playButton, hangarButton, profileButton, friendsButton, settingsButton, exitButton)) {
             button.setPrefHeight(height * 0.065);
         }
 
         //Button appearance
-        for (Button button : Arrays.asList(playButton, hangerButton, profileButton, friendsButton, settingsButton, exitButton)) {
+        for (Button button : Arrays.asList(playButton, hangarButton, profileButton, friendsButton, settingsButton, exitButton)) {
             button.setFont(font);
             button.setStyle(fontSizeStyle);
         }
 
         //Add buttons to VBox
-        for (Button button : Arrays.asList(playButton, hangerButton, profileButton, friendsButton, settingsButton, exitButton)) {
+        for (Button button : Arrays.asList(playButton, hangarButton, profileButton, friendsButton, settingsButton, exitButton)) {
             buttonVBox.getChildren().add(button);
         }
     }
