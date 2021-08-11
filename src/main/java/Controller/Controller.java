@@ -11,6 +11,7 @@ import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
@@ -22,7 +23,7 @@ import java.util.List;
 public class Controller extends javafx.application.Application {
     public Model model;
     public static double factor = 1.0;   // 1.0 = 720p bruges til skalering.
-    private static Stage primaryStage;
+    public static Stage primaryStage;
     private Game game;
     private static boolean fullScreen;
     private static double windowHeight;
@@ -67,8 +68,15 @@ public class Controller extends javafx.application.Application {
         primaryStage.show();
     }
 
-
-
+    public void playMenu(){
+        StackPane background = new StackPane();
+        Scene scene = new Scene(background);
+        scene.setFill(Color.BLACK);
+        Menu.playMenu(scene, background, primaryStage.getWidth(), primaryStage.getHeight(), this);
+        primaryStage.setScene(scene);
+        sizingAfterNewScene();
+        primaryStage.show();
+    }
 
     public void startGame(boolean host) throws Exception {
         List<Ship> ships = new LinkedList<>();
@@ -143,7 +151,7 @@ public class Controller extends javafx.application.Application {
             }
             if (key == KeyCode.ESCAPE) {
                 game = null;
-                mainMenu();
+                playMenu();
             }
 
         });

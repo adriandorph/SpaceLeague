@@ -3,6 +3,10 @@
     -fx-background-color: #347ED4;
 }
 
-.button:hover{
+.button:hover {
     -fx-font-weight: bold;
+}
+
+.button:pressed{
+    -fx-text-fill: #FFFFFF;
 }

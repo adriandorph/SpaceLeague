@@ -11,17 +11,45 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 
+import java.util.Arrays;
+
 public class Menu {
 
-    public static void initializeMainMenu(Scene scene, StackPane stackPane, double width, double height, Controller controller){
-
+    public static void mainMenuBackground(Scene scene, StackPane stackPane, double width, double height){
         scene.getStylesheets().add("styling/menuButtons.css");
+
+
 
         Canvas background = new Canvas(width, height);
         GraphicsContext gc = background.getGraphicsContext2D();
         gc.setFill(Color.BLACK);
         gc.fillRect(0,0, width, height);
+        stackPane.getChildren().add(background);
+    }
+
+    public static void initializeMainMenu(Scene scene, StackPane stackPane, double width, double height, Controller controller){
+        mainMenuBackground(scene, stackPane, width, height);
         VBox buttonVBox = new VBox();
+        //Button position
+        buttonVBox.setTranslateY(height * 0.45);
+        buttonVBox.setTranslateX(width * 0.05);
+        buttonVBox.setSpacing(height * 0.02);
+
+        mainMenuButtons(buttonVBox, width, height, controller);
+
+        stackPane.getChildren().add(buttonVBox);
+    }
+
+    private static void mainMenu(VBox buttonVBox, double width, double height, Controller controller){
+        buttonVBox.getChildren().clear();
+        mainMenuButtons(buttonVBox, width, height, controller);
+        Controller.primaryStage.show();
+    }
+
+    private static void mainMenuButtons(VBox buttonVBox, double width, double height, Controller controller){
+        double fontSize = 24*(height/720);
+        String fontSizeStyle = "-fx-font-size: "+fontSize+"px;";
+        Font font = new Font("Calibri", fontSize);
 
         Button playButton = new Button("Play");
         Button hangerButton = new Button("Hanger");
@@ -32,12 +60,14 @@ public class Menu {
 
         //Button functionality
         playButton.setOnAction(e ->{
-            System.out.println("Play");
+            playMenu(buttonVBox, width, height, controller);
+            /*
             try {
                 controller.startGame(true);
             } catch (Exception exception) {
                 exception.printStackTrace();
             }
+             */
         });
 
         hangerButton.setOnAction(e ->{
@@ -64,44 +94,103 @@ public class Menu {
 
 
         //Button width
-        playButton.setPrefWidth(width * 0.2);
-        hangerButton.setPrefWidth(width * 0.2);
-        profileButton.setPrefWidth(width * 0.2);
-        friendsButton.setPrefWidth(width * 0.2);
-        settingsButton.setPrefWidth(width * 0.2);
-        exitButton.setPrefWidth(width * 0.2);
+        for (Button button : Arrays.asList(playButton, hangerButton, profileButton, friendsButton, settingsButton, exitButton)) {
+            button.setPrefWidth(width * 0.2);
+        }
 
 
         //Button height
-        playButton.setPrefHeight(height * 0.065);
-        hangerButton.setPrefHeight(height * 0.065);
-        profileButton.setPrefHeight(height * 0.065);
-        friendsButton.setPrefHeight(height * 0.065);
-        settingsButton.setPrefHeight(height * 0.065);
-        exitButton.setPrefHeight(height * 0.065);
+        for (Button button : Arrays.asList(playButton, hangerButton, profileButton, friendsButton, settingsButton, exitButton)) {
+            button.setPrefHeight(height * 0.065);
+        }
 
-        //Button position
+        //Button appearance
+        for (Button button : Arrays.asList(playButton, hangerButton, profileButton, friendsButton, settingsButton, exitButton)) {
+            button.setFont(font);
+            button.setStyle(fontSizeStyle);
+        }
+
+        //Add buttons to VBox
+        for (Button button : Arrays.asList(playButton, hangerButton, profileButton, friendsButton, settingsButton, exitButton)) {
+            buttonVBox.getChildren().add(button);
+        }
+    }
+
+
+    private static void playMenu(VBox buttonVBox, double width, double height, Controller controller){
+        buttonVBox.getChildren().clear();
+        playMenuButtons(buttonVBox, width, height, controller);
+        Controller.primaryStage.show();
+    }
+
+    public static void playMenu(Scene scene, StackPane stackPane, double width, double height, Controller controller){
+        mainMenuBackground(scene, stackPane, width, height);
+        VBox buttonVBox = new VBox();
         buttonVBox.setTranslateY(height * 0.45);
         buttonVBox.setTranslateX(width * 0.05);
         buttonVBox.setSpacing(height * 0.02);
 
-        //Button appearance
-        Font font = new Font("Calibri", 24 * (height/720));
-        playButton.setFont(font);
-        hangerButton.setFont(font);
-        profileButton.setFont(font);
-        friendsButton.setFont(font);
-        settingsButton.setFont(font);
-        exitButton.setFont(font);
-
-        buttonVBox.getChildren().add(playButton);
-        buttonVBox.getChildren().add(hangerButton);
-        buttonVBox.getChildren().add(profileButton);
-        buttonVBox.getChildren().add(friendsButton);
-        buttonVBox.getChildren().add(settingsButton);
-        buttonVBox.getChildren().add(exitButton);
-
-        stackPane.getChildren().add(background);
+        playMenuButtons(buttonVBox, width, height, controller);
         stackPane.getChildren().add(buttonVBox);
     }
+
+    public static void playMenuButtons(VBox buttonVBox, double width, double height, Controller controller){
+        double fontSize = 24*(height/720);
+        String fontSizeStyle = "-fx-font-size: "+fontSize+"px;";
+        Font font = new Font("Calibri", fontSize);
+
+
+        Button careerButton = new Button("Career Mode");
+        Button quickMatchButton = new Button("Quick Match");
+        Button multiplayerButton = new Button("Multiplayer");
+        Button mainMenuButton = new Button("Main Menu");
+
+        //Button functionality
+        careerButton.setOnAction(e ->{
+            System.out.println("Career Mode");
+        });
+
+        quickMatchButton.setOnAction(e ->{
+            System.out.println("Quick Match");
+            try {
+                controller.startGame(true);
+            } catch (Exception exception) {
+                exception.printStackTrace();
+            }
+        });
+
+        multiplayerButton.setOnAction(e ->{
+            System.out.println("Multiplayer");
+        });
+
+        mainMenuButton.setOnAction(e ->{
+            System.out.println("Main Menu");
+            mainMenu(buttonVBox, width, height, controller);
+        });
+
+
+        //Button width
+        for (Button button : Arrays.asList(careerButton, quickMatchButton, multiplayerButton, mainMenuButton)) {
+            button.setPrefWidth(width * 0.2);
+        }
+
+
+        //Button height
+        for (Button button : Arrays.asList(careerButton, quickMatchButton, multiplayerButton, mainMenuButton)) {
+            button.setPrefHeight(height * 0.065);
+        }
+
+        //Button appearance
+        for (Button button : Arrays.asList(careerButton, quickMatchButton, multiplayerButton, mainMenuButton)) {
+            button.setFont(font);
+            button.setStyle(fontSizeStyle);
+        }
+
+        //Add button to VBox
+        for (Button button : Arrays.asList(careerButton, quickMatchButton, multiplayerButton, mainMenuButton)) {
+            buttonVBox.getChildren().add(button);
+        }
+    }
+
+
 }
