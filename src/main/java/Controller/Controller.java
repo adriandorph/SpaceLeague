@@ -11,7 +11,6 @@ import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
@@ -62,7 +61,7 @@ public class Controller extends javafx.application.Application {
         StackPane background = new StackPane();
         Scene scene = new Scene(background);
         scene.setFill(Color.BLACK);
-        Menu.initializeMainMenu(scene, background, primaryStage.getWidth(), primaryStage.getHeight(), this);
+        Menu.mainMenu(scene, background, primaryStage.getWidth(), primaryStage.getHeight(), this);
         primaryStage.setScene(scene);
         sizingAfterNewScene();
         primaryStage.show();

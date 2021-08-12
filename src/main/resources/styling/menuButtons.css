@@ -1,12 +1,28 @@
-.button{
+.button {
     -fx-text-fill: #000000;
     -fx-background-color: #347ED4;
 }
 
 .button:hover {
     -fx-font-weight: bold;
+    -fx-cursor: hand;
 }
 
 .button:pressed{
     -fx-text-fill: #FFFFFF;
+}
+
+.toggle-button {
+    -fx-text-fill: #000000;
+    -fx-background-color: #347ED4;
+}
+
+.toggle-button:hover{
+    -fx-font-weight: bold;
+    -fx-cursor: hand;
+}
+
+.toggle-button:selected{
+    -fx-text-fill: #347ED4;
+    -fx-background-color: #FFFFFF;
 }
