@@ -8,7 +8,11 @@ import javafx.scene.control.ToggleGroup;
 import java.util.Arrays;
 
 public class QuickMatchMenu extends MenuTemplate {
+    private final QuickStartGameMenu quickStartGameMenu;
+
     public QuickMatchMenu(){
+        quickStartGameMenu = new QuickStartGameMenu();
+
         ToggleGroup toggleGroup = new ToggleGroup();
 
         ToggleButton deathMatchButton = new ToggleButton("Death Match");
@@ -17,6 +21,22 @@ public class QuickMatchMenu extends MenuTemplate {
         ToggleButton goldRushButton = new ToggleButton("Gold Rush");
 
         //Button functionality
+        deathMatchButton.setOnAction(e -> {
+            if (!deathMatchButton.isSelected()) deathMatchButton.setSelected(true);
+        });
+
+        captureButton.setOnAction(e -> {
+            if (!captureButton.isSelected()) captureButton.setSelected(true);
+        });
+
+        spaceBallButton.setOnAction(e -> {
+            if (!spaceBallButton.isSelected()) spaceBallButton.setSelected(true);
+        });
+
+        goldRushButton.setOnAction(e -> {
+            if (!goldRushButton.isSelected()) goldRushButton.setSelected(true);
+        });
+
 
         for (ToggleButton button: Arrays.asList(deathMatchButton,captureButton,spaceBallButton,goldRushButton)){
             button.setToggleGroup(toggleGroup);
@@ -30,5 +50,7 @@ public class QuickMatchMenu extends MenuTemplate {
 
         backButton.setOnAction(e -> Controller.playMenu());
         menuButtonsVBox.getChildren().add(backButton);
+
+        getChildren().add(quickStartGameMenu);
     }
 }

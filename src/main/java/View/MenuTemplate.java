@@ -56,21 +56,21 @@ public class MenuTemplate extends StackPane {
         getChildren().add(menuButtonsVBox);
     }
 
-    protected void styleMenuButton(Button button){
+    public static void styleMenuButton(Button button){
         button.setPrefWidth(Controller.windowWidth * 0.2);
         button.setPrefHeight(Controller.windowHeight * 0.05);
         button.setFont(font);
         button.setStyle(fontSizeStyle);
     }
 
-    protected void styleMenuButton(ToggleButton button){
+    public static void styleMenuButton(ToggleButton button){
         button.setPrefWidth(Controller.windowWidth * 0.2);
         button.setPrefHeight(Controller.windowHeight * 0.05);
         button.setFont(font);
         button.setStyle(fontSizeStyle);
     }
 
-    protected Button backButton(){
+    public static Button backButton(){
         Button backButton = new Button();
         Image backArrowImage = new Image(Objects.requireNonNull(Controller.class.getClassLoader().getResourceAsStream("icons/backArrow.png")));
         ImageView backArrowImageView = new ImageView(backArrowImage);

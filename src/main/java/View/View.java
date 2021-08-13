@@ -2,6 +2,7 @@ package View;
 
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 
 public class View extends Scene {
     MainMenu mainMenu;
@@ -33,4 +34,6 @@ public class View extends Scene {
     public void quickMatchMenu(){
         setRoot(quickMatchMenu);
     }
+
+    public void viewGame(StackPane gamePane){setRoot(gamePane);}
 }

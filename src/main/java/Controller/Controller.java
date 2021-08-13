@@ -7,6 +7,7 @@ import View.GameCanvas;
 import View.View;
 import javafx.application.Platform;
 import javafx.geometry.Rectangle2D;
+import javafx.scene.Cursor;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCombination;
@@ -25,7 +26,7 @@ public class Controller extends javafx.application.Application {
     private static View view;
     public static double factor = 1.0;   // 1.0 = 720p bruges til skalering.
     public static Stage primaryStage;
-    private Game game;
+    private static Game game = null;
     private static boolean fullScreen;
     public static double windowHeight;
     public static double windowWidth;
@@ -62,6 +63,7 @@ public class Controller extends javafx.application.Application {
         view.getStylesheets().add("styling/menuButtons.css");
         Controller.primaryStage.setScene(view);
         sizingAfterNewScene();
+        setGameKeyInput(view);
         primaryStage.show();
     }
 
@@ -81,7 +83,7 @@ public class Controller extends javafx.application.Application {
         primaryStage.show();
     }
 
-    public void startGame(boolean host) throws Exception {
+    public static void startGame(boolean host) throws Exception {
         List<Ship> ships = new LinkedList<>();
         ships.add(ShipFactory.MarkIShip(0, 2, Color.RED, true));
         ships.add(ShipFactory.MarkIShip(ships.size(), 2, Color.LIME, false));
@@ -92,12 +94,10 @@ public class Controller extends javafx.application.Application {
 
         GameCanvas gameCanvas = new GameCanvas(primaryStage.getWidth(), primaryStage.getHeight(), gameField.getAllObjects(), gameField.getShips());
         game = new Game(gameCanvas, gameField);
-        StackPane background = new StackPane();
-        Scene scene = new Scene(background);
-        background.getChildren().add(gameCanvas);
-        setGameKeyInput(scene);
-        primaryStage.setScene(scene);
-        sizingAfterNewScene();
+        StackPane gamePane = new StackPane();
+        view.setCursor(Cursor.NONE);
+        gamePane.getChildren().add(gameCanvas);
+        view.viewGame(gamePane);
 
         primaryStage.show();
 
@@ -154,8 +154,9 @@ public class Controller extends javafx.application.Application {
                     e.printStackTrace();
                 }
             }
-            if (key == KeyCode.ESCAPE) {
+            if (key == KeyCode.ESCAPE && game != null) {
                 game = null;
+                view.setCursor(Cursor.DEFAULT);
                 playMenu();
             }
 
