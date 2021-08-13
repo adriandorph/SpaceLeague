@@ -4,7 +4,7 @@ import Model.*;
 import Model.Ships.Ship;
 import Model.Ships.ShipFactory;
 import View.GameCanvas;
-import View.Menu;
+import View.View;
 import javafx.application.Platform;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
@@ -21,11 +21,14 @@ import java.util.List;
 
 public class Controller extends javafx.application.Application {
     public Model model;
+
+    private static View view;
     public static double factor = 1.0;   // 1.0 = 720p bruges til skalering.
     public static Stage primaryStage;
     private Game game;
     private static boolean fullScreen;
-    private static double windowHeight;
+    public static double windowHeight;
+    public static double windowWidth;
 
     private static boolean moveForward;
     private static boolean turnRight;
@@ -54,26 +57,27 @@ public class Controller extends javafx.application.Application {
         setFullScreen();
         //setSize(720);
 
-        mainMenu();
-    }
-
-    public void mainMenu(){
-        StackPane background = new StackPane();
-        Scene scene = new Scene(background);
-        scene.setFill(Color.BLACK);
-        Menu.mainMenu(scene, background, primaryStage.getWidth(), primaryStage.getHeight(), this);
-        primaryStage.setScene(scene);
+        view = new View();
+        view.setFill(Color.BLACK);
+        view.getStylesheets().add("styling/menuButtons.css");
+        Controller.primaryStage.setScene(view);
         sizingAfterNewScene();
         primaryStage.show();
     }
 
-    public void playMenu(){
-        StackPane background = new StackPane();
-        Scene scene = new Scene(background);
-        scene.setFill(Color.BLACK);
-        Menu.playMenu(scene, background, primaryStage.getWidth(), primaryStage.getHeight(), this);
-        primaryStage.setScene(scene);
-        sizingAfterNewScene();
+    public static void mainMenu(){
+        //view.setFill(Color.BLACK);
+        view.mainMenu();
+        primaryStage.show();
+    }
+
+    public static void playMenu(){
+        view.playMenu();
+        primaryStage.show();
+    }
+
+    public static void quickMatchMenu(){
+        view.quickMatchMenu();
         primaryStage.show();
     }
 
@@ -113,9 +117,11 @@ public class Controller extends javafx.application.Application {
         if (!fullScreen && (height < 720 || height > 2160)) throw new RuntimeException("The window size has to be within 720p - 2160p");
         primaryStage.setFullScreen(false);
         factor = height / 720.0;
-        primaryStage.setHeight(height);
-        primaryStage.setWidth(height * 16/9.0);
+        windowWidth = height * 16/9.0;
         windowHeight = height;
+
+        primaryStage.setWidth(windowWidth);
+        primaryStage.setHeight(height);
     }
 
     public static void setFullScreen(){
