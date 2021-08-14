@@ -8,10 +8,10 @@ import javafx.scene.control.ToggleGroup;
 import java.util.Arrays;
 
 public class QuickMatchMenu extends MenuTemplate {
-    private final QuickStartGameMenu quickStartGameMenu;
+    private final QuickMatchCenterMenu quickMatchCenterMenu;
 
     public QuickMatchMenu(){
-        quickStartGameMenu = new QuickStartGameMenu();
+        quickMatchCenterMenu = new QuickMatchCenterMenu();
 
         ToggleGroup toggleGroup = new ToggleGroup();
 
@@ -23,18 +23,23 @@ public class QuickMatchMenu extends MenuTemplate {
         //Button functionality
         deathMatchButton.setOnAction(e -> {
             if (!deathMatchButton.isSelected()) deathMatchButton.setSelected(true);
+            quickMatchCenterMenu.updateNumberOfPlayersSettings(true);
         });
 
         captureButton.setOnAction(e -> {
             if (!captureButton.isSelected()) captureButton.setSelected(true);
+            quickMatchCenterMenu.updateNumberOfPlayersSettings(false);
         });
 
         spaceBallButton.setOnAction(e -> {
             if (!spaceBallButton.isSelected()) spaceBallButton.setSelected(true);
+            quickMatchCenterMenu.updateNumberOfPlayersSettings(false);
+
         });
 
         goldRushButton.setOnAction(e -> {
             if (!goldRushButton.isSelected()) goldRushButton.setSelected(true);
+            quickMatchCenterMenu.updateNumberOfPlayersSettings(true);
         });
 
 
@@ -51,6 +56,6 @@ public class QuickMatchMenu extends MenuTemplate {
         backButton.setOnAction(e -> Controller.playMenu());
         menuButtonsVBox.getChildren().add(backButton);
 
-        getChildren().add(quickStartGameMenu);
+        getChildren().add(quickMatchCenterMenu);
     }
 }
