@@ -244,17 +244,13 @@ public class Ship implements Comparable<Ship>, Drawable, Collidable {
         Direction wall = CollisionDetection.wallCollisionDirection(this);
         if (wall == Direction.NORTH && velY < 0){
             velY *= -0.2;
-            //positionY += 1;
         } else if (wall == Direction.SOUTH && velY > 0) {
             velY *= -0.2;
-            //positionY -= 1;
         }
         if (wall == Direction.WEST && velX < 0){
             velX *= -0.2;
-            //positionX += 1;
         } else if(wall == Direction.EAST && velX > 0) {
             velX *= -0.2;
-            //positionX -= 1;
         }
 
         //position update by speed

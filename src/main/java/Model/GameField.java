@@ -16,9 +16,8 @@ public class GameField {
     private int indexOfPlayerShip;
     boolean localMultiplayer;
     boolean hasBots;
-    boolean host;
 
-    public GameField(boolean host, List<Ship> ships, int indexOfPlayerShip, int time) throws UnfairException {
+    public GameField(List<Ship> ships, int indexOfPlayerShip, int time) throws UnfairException {
         //Check for fairness of ships
         String className = ships.get(0).getClassName();
 

@@ -15,7 +15,7 @@ import javafx.scene.text.Font;
 
 import java.util.Objects;
 
-public class MenuTemplate extends StackPane {
+public abstract class MenuTemplate extends StackPane {
     protected static final double fontSize = 17*(Controller.windowHeight/720);
     protected static final String fontSizeStyle = "-fx-font-size: "+fontSize+"px;";
     protected static final Font font = new Font(fontSize);

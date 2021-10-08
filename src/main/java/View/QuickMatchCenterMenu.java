@@ -138,7 +138,7 @@ public class QuickMatchCenterMenu extends VBox {//TODO: find a better name
 
         startGameButton.setOnAction(e -> {
             try {
-                Controller.startGame(true);
+                Controller.startGame();
             } catch (Exception exception) {
                 exception.printStackTrace();
             }

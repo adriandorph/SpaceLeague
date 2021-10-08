@@ -21,7 +21,6 @@ import java.util.List;
 
 
 public class Controller extends javafx.application.Application {
-    public Model model;
 
     private static View view;
     public static double factor = 1.0;   // 1.0 = 720p bruges til skalering.
@@ -48,15 +47,14 @@ public class Controller extends javafx.application.Application {
 
     @Override
     public void start(Stage primaryStage) {
-        model = new Model();
         primaryStage.setResizable(false);
         primaryStage.setOnCloseRequest(e -> {
             Platform.exit();
             System.exit(0);
         });
         Controller.primaryStage = primaryStage;
-        //setFullScreen();
-        setSize(720);
+        setFullScreen();
+        //setSize(720);
 
         view = new View();
         view.setFill(Color.BLACK);
@@ -83,14 +81,14 @@ public class Controller extends javafx.application.Application {
         primaryStage.show();
     }
 
-    public static void startGame(boolean host) throws Exception {
+    public static void startGame() throws Exception {
         List<Ship> ships = new LinkedList<>();
         ships.add(ShipFactory.MarkIShip(0, 2, Color.RED, true));
         ships.add(ShipFactory.MarkIShip(ships.size(), 2, Color.LIME, false));
         //ships.add(ShipFactory.AlexI(ships.size(), 4, Color.AQUA, false));
         //ships.add(ShipFactory.BoxShip(ships.size(), 4, Color.YELLOW, false));
 
-        GameField gameField = new GameField(host, ships, 0, 150);
+        GameField gameField = new GameField(ships, 0, 150);
 
         GameCanvas gameCanvas = new GameCanvas(primaryStage.getWidth(), primaryStage.getHeight(), gameField.getAllObjects(), gameField.getShips());
         game = new Game(gameCanvas, gameField);
@@ -103,6 +101,10 @@ public class Controller extends javafx.application.Application {
 
         game.start();
     }
+
+
+
+
 
     private static void sizingAfterNewScene(){
         if (fullScreen){
@@ -149,7 +151,7 @@ public class Controller extends javafx.application.Application {
             if (key == KeyCode.R) {
                 try {
                     game = null;
-                    startGame(true);
+                    startGame();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
