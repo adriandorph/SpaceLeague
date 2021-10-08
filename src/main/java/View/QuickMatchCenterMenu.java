@@ -3,15 +3,13 @@ package View;
 import Controller.Controller;
 import Model.BotDifficulty;
 import javafx.collections.ObservableList;
-import javafx.geometry.Insets;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 
-public class QuickMatchCenterMenu extends VBox {//TODO: find a better name
+public class QuickMatchCenterMenu extends VBox {
     private BorderPane individualAndTeamToggleBorderPane;
     private ToggleGroup individualAndTeamToggleGroup;
     private final ToggleButton individualToggle;
@@ -73,6 +71,8 @@ public class QuickMatchCenterMenu extends VBox {//TODO: find a better name
         individualAndTeamToggleBorderPane.setLeft(individualToggle);
         individualAndTeamToggleBorderPane.setRight(teamToggle);
 
+
+
         //Number of players and bot difficulty settings
         numOfPlayersBotDifficultyBorderPane = new BorderPane();
 
@@ -130,6 +130,8 @@ public class QuickMatchCenterMenu extends VBox {//TODO: find a better name
 
         updateNumberOfPlayersSettings(true);
 
+
+
         //StartButton
         Button startGameButton = new Button("Start Game");
         MenuTemplate.styleMenuButton(startGameButton);
@@ -143,6 +145,8 @@ public class QuickMatchCenterMenu extends VBox {//TODO: find a better name
                 exception.printStackTrace();
             }
         });
+
+
 
         //Position
         setTranslateX(Controller.windowWidth * 0.125);

@@ -148,7 +148,7 @@ public class Controller extends javafx.application.Application {
             if (key == KeyCode.RIGHT) turnRight2 = true;
             if (key == KeyCode.SHIFT) shoot2 = true;
 
-            if (key == KeyCode.R) {
+            if (key == KeyCode.R) {//Restart game
                 try {
                     game = null;
                     startGame();
