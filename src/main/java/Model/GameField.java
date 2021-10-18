@@ -13,29 +13,46 @@ public class GameField {
     private List<Ship> ships;
     private List<Bot> bots;
     private GameClock clock;
-    private int indexOfPlayerShip;
+    private List<Integer> indexOfPlayers;
     boolean localMultiplayer;
     boolean hasBots;
 
-    public GameField(List<Ship> ships, int indexOfPlayerShip, int time) throws UnfairException {
+    //Currently used
+    public GameField(GameSettings gameSettings) throws UnfairException {
         //Check for fairness of ships
         String className = ships.get(0).getClassName();
-
         for (Ship ship: ships){
             if (!ship.getClassName().equals(className)) throw new UnfairException();
         }
-        this.indexOfPlayerShip = indexOfPlayerShip;
-        localMultiplayer = false;
-        this.ships = ships;
+
+        this.indexOfPlayers = gameSettings.indexOfPlayers;
+        this.localMultiplayer = gameSettings.localMultiplayer;
+        this.ships = gameSettings.ships;
         bots = new ArrayList<>();
         for (int i = 0; i< ships.size(); i++){
-            if (i != indexOfPlayerShip){
+            if (!indexOfPlayers.contains(i)){
+                switch (gameSettings.botDifficulty) {
+                    case EASY:
+                        EasyBot easyBot = new EasyBot(ships.get(i));
+                        bots.add(easyBot);
+                        break;
+                    case MEDIUM:
+                        MediumBot mediumBot = new MediumBot(ships.get(i));
+                        bots.add(mediumBot);
+                        break;
+                    case HARD:
+                        HardBot hardBot = new HardBot(ships.get(i));
+                        bots.add(hardBot);
+                        break;
+                    default:
+                        throw new RuntimeException("BotDifficulty not set properly.");
+                }
                 EasyBot easyBot = new EasyBot(ships.get(i));
                 bots.add(easyBot);
             }
         }
-        hasBots = true;
-        clock = new GameClock(time);
+        this.hasBots = gameSettings.hasBots;
+        clock = new GameClock(gameSettings.time);
 
     }
 
@@ -45,15 +62,15 @@ public class GameField {
         for (Ship ship: ships){
             if (!ship.getClassName().equals(className)) throw new UnfairException();
         }
-        this.indexOfPlayerShip = 0;
+        this.indexOfPlayers = new ArrayList<>(List.of(0));
         this.ships = ships;
         localMultiplayer = false;
         clock = new GameClock(time);
     }
 
-    public void update(double time){
-        if (localMultiplayer) localMultiplayerInput(ships.get(1));
-        else playerInputs(ships.get(indexOfPlayerShip));
+    public void update(double time){//Lav om så til any
+        if (localMultiplayer) localMultiplayerInput(ships.get(indexOfPlayers.get(1))); //player 2
+        else playerInputs(ships.get(indexOfPlayers.get(0)));//player 1
         if (hasBots) botInputs();
         for (Ship ship: ships){
             ship.update(time);
@@ -70,7 +87,7 @@ public class GameField {
     }
 
     private void localMultiplayerInput(Ship ship){
-        playerInputs(ships.get(0));
+        playerInputs(ships.get(indexOfPlayers.get(0)));
 
         ship.setMoveForward(Controller.moveForward2());
         ship.setTurnLeft(Controller.turnLeft2());

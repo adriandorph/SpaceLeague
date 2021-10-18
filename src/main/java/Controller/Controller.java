@@ -1,5 +1,6 @@
 package Controller;
 
+import Exceptions.UnfairException;
 import Model.*;
 import Model.Ships.Ship;
 import Model.Ships.ShipFactory;
@@ -16,6 +17,7 @@ import javafx.scene.paint.Color;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -39,6 +41,8 @@ public class Controller extends javafx.application.Application {
     private static boolean turnRight2;
     private static boolean turnLeft2;
     private static boolean shoot2;
+
+    private static GameSettings gameSettings;
 
     public static void main() {
         fullScreen = false;
@@ -81,14 +85,17 @@ public class Controller extends javafx.application.Application {
         primaryStage.show();
     }
 
-    public static void startGame() throws Exception {
+    public static void startGame(GameSettings gameSettings) throws Exception {
+
         List<Ship> ships = new LinkedList<>();
         ships.add(ShipFactory.MarkIShip(0, 2, Color.RED, true));
         ships.add(ShipFactory.MarkIShip(ships.size(), 2, Color.LIME, false));
         //ships.add(ShipFactory.AlexI(ships.size(), 4, Color.AQUA, false));
         //ships.add(ShipFactory.BoxShip(ships.size(), 4, Color.YELLOW, false));
 
-        GameField gameField = new GameField(ships, 0, 150);
+        GameField gameField = new GameField(gameSettings);
+
+        Controller.gameSettings = gameSettings;
 
         GameCanvas gameCanvas = new GameCanvas(primaryStage.getWidth(), primaryStage.getHeight(), gameField.getAllObjects(), gameField.getShips());
         game = new Game(gameCanvas, gameField);
@@ -101,10 +108,6 @@ public class Controller extends javafx.application.Application {
 
         game.start();
     }
-
-
-
-
 
     private static void sizingAfterNewScene(){
         if (fullScreen){
@@ -151,7 +154,7 @@ public class Controller extends javafx.application.Application {
             if (key == KeyCode.R) {//Restart game
                 try {
                     game = null;
-                    startGame();
+                    startGame(Controller.gameSettings);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

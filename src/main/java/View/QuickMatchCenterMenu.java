@@ -2,6 +2,7 @@ package View;
 
 import Controller.Controller;
 import Model.BotDifficulty;
+import Model.GameSettings;
 import javafx.collections.ObservableList;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
@@ -20,6 +21,7 @@ public class QuickMatchCenterMenu extends VBox {
     private final HBox unfairHBox;
     private final HBox numberOfPlayersHBox;
     private boolean numberOfPlayersIsOption;
+
 
     private static final double gameFormatLabelFontSize = 20 * (Controller.windowHeight/720);
     private static final String gameFormatLabelSizeStyle = "-fx-font-size: "+ gameFormatLabelFontSize +"px;";
@@ -140,7 +142,7 @@ public class QuickMatchCenterMenu extends VBox {
 
         startGameButton.setOnAction(e -> {
             try {
-                Controller.startGame();
+                Controller.startGame(new GameSettings());
             } catch (Exception exception) {
                 exception.printStackTrace();
             }
