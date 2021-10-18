@@ -1,6 +1,5 @@
 package Controller;
 
-import Exceptions.UnfairException;
 import Model.*;
 import Model.Ships.Ship;
 import Model.Ships.ShipFactory;
@@ -17,7 +16,6 @@ import javafx.scene.paint.Color;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
