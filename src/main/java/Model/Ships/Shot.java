@@ -41,15 +41,9 @@ public class Shot implements Drawable, Collidable {
         dynamicShapeX = new double[shapeX.length];
         dynamicShapeY = new double[shapeY.length];
 
-        for (int i = 0; i<shapeX.length; i++){
-            double shapePosX = shapeX[i] * Math.cos(Math.toRadians(angle)) - shapeY[i] * Math.sin(Math.toRadians(angle));
-            double shapePosY = shapeY[i] * Math.cos(Math.toRadians(angle)) + shapeX[i] * Math.sin(Math.toRadians(angle));
-
-            dynamicShapeX[i] = (shapePosX+positionX) * Controller.factor;
-            dynamicShapeY[i] = (shapePosY+positionY) * Controller.factor;
-        }
-
+        Ship.polygonAngle(shapeX, shapeY, dynamicShapeX, dynamicShapeY, angle, positionX, positionY, Controller.factor);
     }
+
 
     public boolean isInGameField(){
         return !(positionY <= 0.0) && !(positionY >= 720.0) && !(positionX <= 0.0) && !(positionX >= 720 * 16.0 / 9.0);

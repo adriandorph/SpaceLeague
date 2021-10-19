@@ -194,27 +194,28 @@ public class Ship implements Comparable<Ship>, Drawable, Collidable, Serializabl
         //Shape angle conversion
         dynamicShapeX = new double[shapeX.length];
         dynamicShapeY = new double[shapeY.length];
-        for (int i = 0; i<shapeX.length; i++){
-            //Rotation https://www.youtube.com/watch?v=OYuoPTRVzxY
-            double shapePosX = shapeX[i] * Math.cos(Math.toRadians(angle)) - shapeY[i] * Math.sin(Math.toRadians(angle));
-            double shapePosY = shapeY[i] * Math.cos(Math.toRadians(angle)) + shapeX[i] * Math.sin(Math.toRadians(angle));
-
-            dynamicShapeX[i] = (shapePosX+positionX) * Controller.factor;
-            dynamicShapeY[i] = (shapePosY+positionY) * Controller.factor;
-        }
+        polygonAngle(shapeX, shapeY, dynamicShapeX, dynamicShapeY);
 
         dynamicGunPosX = gunPosX * Math.cos(Math.toRadians(angle)) - gunPosY * Math.sin(Math.toRadians(angle)) + positionX;
         dynamicGunPosY = gunPosY * Math.cos(Math.toRadians(angle)) + gunPosX * Math.sin(Math.toRadians(angle)) + positionY;
 
         dynamicFlameX = new double[flameX.length];
         dynamicFlameY = new double[flameY.length];
-        for (int i = 0; i<flameX.length; i++){
-            //Rotation https://www.youtube.com/watch?v=OYuoPTRVzxY
-            double shapePosX = flameX[i] * Math.cos(Math.toRadians(angle)) - flameY[i] * Math.sin(Math.toRadians(angle));
-            double shapePosY = flameY[i] * Math.cos(Math.toRadians(angle)) + flameX[i] * Math.sin(Math.toRadians(angle));
+        polygonAngle(flameX, flameY, dynamicFlameX, dynamicFlameY);
+    }
 
-            dynamicFlameX[i] = (shapePosX+positionX) * Controller.factor;
-            dynamicFlameY[i] = (shapePosY+positionY) * Controller.factor;
+    private void polygonAngle(double[] shapeX, double[] shapeY, double[] dynamicShapeX, double[] dynamicShapeY){
+        polygonAngle(shapeX, shapeY, dynamicShapeX, dynamicShapeY, angle, positionX, positionY, Controller.factor);
+    }
+
+    public static void polygonAngle (double[] shapeX, double[] shapeY, double[] dynamicShapeX, double[] dynamicShapeY, double angle, double positionX, double positionY, double controllerFactor){
+        for (int i = 0; i<shapeX.length; i++){
+            //Rotation https://www.youtube.com/watch?v=OYuoPTRVzxY
+            double shapePosX = shapeX[i] * Math.cos(Math.toRadians(angle)) - shapeY[i] * Math.sin(Math.toRadians(angle));
+            double shapePosY = shapeY[i] * Math.cos(Math.toRadians(angle)) + shapeX[i] * Math.sin(Math.toRadians(angle));
+
+            dynamicShapeX[i] = (shapePosX+positionX) * controllerFactor;
+            dynamicShapeY[i] = (shapePosY+positionY) * controllerFactor;
         }
     }
 
