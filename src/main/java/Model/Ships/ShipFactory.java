@@ -18,6 +18,7 @@ public class ShipFactory {
     private static HashMap<String, Integer> classRanks = new HashMap<>();
     private static boolean isInitialized;
 
+
     public static Ship BoxShip(int startPosition, int numberOfShips, Color color, boolean noob) throws Exception {
         initializeRanks();
         double[] shapeX = {-7.5, 7.5, 10.0, -10.0};
