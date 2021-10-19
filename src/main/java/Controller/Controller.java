@@ -85,12 +85,6 @@ public class Controller extends javafx.application.Application {
 
     public static void startGame(GameSettings gameSettings) throws Exception {
 
-        List<Ship> ships = new LinkedList<>();
-        ships.add(ShipFactory.MarkIShip(0, 2, Color.RED, true));
-        ships.add(ShipFactory.MarkIShip(ships.size(), 2, Color.LIME, false));
-        //ships.add(ShipFactory.AlexI(ships.size(), 4, Color.AQUA, false));
-        //ships.add(ShipFactory.BoxShip(ships.size(), 4, Color.YELLOW, false));
-
         GameField gameField = new GameField(gameSettings);
 
         Controller.gameSettings = gameSettings;
@@ -151,6 +145,7 @@ public class Controller extends javafx.application.Application {
 
             if (key == KeyCode.R) {//Restart game
                 try {
+                    game.stop();
                     game = null;
                     startGame(Controller.gameSettings);
                 } catch (Exception e) {

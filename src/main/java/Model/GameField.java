@@ -18,8 +18,14 @@ public class GameField {
     boolean hasBots;
 
     //Currently used
-    public GameField(GameSettings gameSettings) throws UnfairException {
+    public GameField(GameSettings gameSettings) throws Exception {
         //Check for fairness of ships
+        this.ships = new LinkedList<>();
+        for(ShipBuilder shipBuilder: gameSettings.shipBuilders){
+            this.ships.add(shipBuilder.buildShip());
+        }
+
+
         String className = ships.get(0).getClassName();
         for (Ship ship: ships){
             if (!ship.getClassName().equals(className)) throw new UnfairException();
@@ -27,7 +33,6 @@ public class GameField {
 
         this.indexOfPlayers = gameSettings.indexOfPlayers;
         this.localMultiplayer = gameSettings.localMultiplayer;
-        this.ships = gameSettings.ships;
         bots = new ArrayList<>();
         for (int i = 0; i< ships.size(); i++){
             if (!indexOfPlayers.contains(i)){
@@ -37,11 +42,11 @@ public class GameField {
                         bots.add(easyBot);
                         break;
                     case MEDIUM:
-                        MediumBot mediumBot = new MediumBot(ships.get(i));
+                        EasyBot mediumBot = new EasyBot(ships.get(i));
                         bots.add(mediumBot);
                         break;
                     case HARD:
-                        HardBot hardBot = new HardBot(ships.get(i));
+                        EasyBot hardBot = new EasyBot(ships.get(i));
                         bots.add(hardBot);
                         break;
                     default:
@@ -56,6 +61,7 @@ public class GameField {
 
     }
 
+    @Deprecated
     public GameField(boolean host, List<Ship> ships, int time) throws UnfairException {
         //Check for fairness of ships
         String className = ships.get(0).getClassName();

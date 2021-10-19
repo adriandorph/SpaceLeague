@@ -8,10 +8,11 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
 
+import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
 
-public class Ship implements Comparable<Ship>, Drawable, Collidable {
+public class Ship implements Comparable<Ship>, Drawable, Collidable, Serializable {
     protected final double acceleration;
     private final double turningAcceleration;
     private final double shootingRate;

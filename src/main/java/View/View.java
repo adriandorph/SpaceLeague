@@ -8,6 +8,7 @@ public class View extends Scene {
     MainMenu mainMenu;
     PlayMenu playMenu;
     QuickMatchMenu quickMatchMenu;
+    QuickMatchMenu localMultiplayerMenu;
 
     public View(){
         super(new Pane());
@@ -20,7 +21,8 @@ public class View extends Scene {
     private void initializeMenus(){
         mainMenu = new MainMenu();
         playMenu = new PlayMenu();
-        quickMatchMenu = new QuickMatchMenu();
+        quickMatchMenu = new QuickMatchMenu(false);
+        localMultiplayerMenu = new QuickMatchMenu(true);
     }
 
     public void mainMenu(){

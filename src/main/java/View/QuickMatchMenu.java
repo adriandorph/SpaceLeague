@@ -10,8 +10,8 @@ import java.util.Arrays;
 public class QuickMatchMenu extends MenuTemplate {
     private final QuickMatchCenterMenu quickMatchCenterMenu;
 
-    public QuickMatchMenu(){
-        quickMatchCenterMenu = new QuickMatchCenterMenu();
+    public QuickMatchMenu(boolean localMultiplayer){
+        quickMatchCenterMenu = new QuickMatchCenterMenu(localMultiplayer);
 
         ToggleGroup toggleGroup = new ToggleGroup();
 

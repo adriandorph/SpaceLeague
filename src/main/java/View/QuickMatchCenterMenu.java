@@ -3,12 +3,21 @@ package View;
 import Controller.Controller;
 import Model.BotDifficulty;
 import Model.GameSettings;
+import Model.Ships.Ship;
+import Model.Ships.ShipBuilder;
+import Model.Ships.ShipFactory;
+import Model.Ships.ShipVariant;
 import javafx.collections.ObservableList;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 
 public class QuickMatchCenterMenu extends VBox {
     private BorderPane individualAndTeamToggleBorderPane;
@@ -34,8 +43,7 @@ public class QuickMatchCenterMenu extends VBox {
     private static final String individualTeamfontSizeStyle = "-fx-font-size: "+ individualTeamfontSize +"px;";
     private static final Font individualTeamfont = new Font(individualTeamfontSize);
 
-
-    public QuickMatchCenterMenu(){
+    public QuickMatchCenterMenu(boolean localMultiplayer){
 
         //Individual and team toggles
         individualAndTeamToggleBorderPane = new BorderPane();
@@ -141,8 +149,30 @@ public class QuickMatchCenterMenu extends VBox {
         startBorderPane.setCenter(startGameButton);
 
         startGameButton.setOnAction(e -> {
+            GameSettings gameSettings = new GameSettings();
+            gameSettings.localMultiplayer = localMultiplayer;
+            gameSettings.botDifficulty = botDifficultyDropDown.getValue();
+            gameSettings.hasBots = true;
+
+            if(localMultiplayer) gameSettings.indexOfPlayers = new ArrayList<>(List.of(0,1));
+            else gameSettings.indexOfPlayers = new ArrayList<>(List.of(0));
+
+            List<ShipBuilder> shipBuilders = new LinkedList<>();
             try {
-                Controller.startGame(new GameSettings());
+                shipBuilders.add(new ShipBuilder(0, numOfPLayersDropDown.getValue(), Color.RED, true, ShipVariant.MarkIShip));
+                shipBuilders.add(new ShipBuilder(shipBuilders.size(), numOfPLayersDropDown.getValue(), Color.LIME, false, ShipVariant.MarkIShip));
+                shipBuilders.add(new ShipBuilder(shipBuilders.size(), numOfPLayersDropDown.getValue(), Color.AQUA, false, ShipVariant.AlexI));
+                shipBuilders.add(new ShipBuilder(shipBuilders.size(), numOfPLayersDropDown.getValue(), Color.YELLOW, false, ShipVariant.BoxShip));
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+            gameSettings.shipBuilders = new LinkedList<>();
+            for (int i = 0; i<numOfPLayersDropDown.getValue(); i++){
+                gameSettings.shipBuilders.add(shipBuilders.get(i));
+            }
+            gameSettings.time = 150;
+            try {
+                Controller.startGame(gameSettings);
             } catch (Exception exception) {
                 exception.printStackTrace();
             }
