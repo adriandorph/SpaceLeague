@@ -37,5 +37,9 @@ public class View extends Scene {
         setRoot(quickMatchMenu);
     }
 
+    public void localMultiplayerMenu(){
+        setRoot(localMultiplayerMenu);
+    }
+
     public void viewGame(StackPane gamePane){setRoot(gamePane);}
 }

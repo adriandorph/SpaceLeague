@@ -18,7 +18,7 @@ public class PlayMenu extends MenuTemplate {
 
         quickMatchButton.setOnAction(e -> Controller.quickMatchMenu());
 
-        multiplayerButton.setOnAction(e -> System.out.println("Multiplayer"));
+        multiplayerButton.setOnAction(e -> Controller.localMultiplayerMenu());
 
         backButton.setOnAction(e -> Controller.mainMenu());
 

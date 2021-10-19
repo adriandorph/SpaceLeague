@@ -83,6 +83,11 @@ public class Controller extends javafx.application.Application {
         primaryStage.show();
     }
 
+    public static void localMultiplayerMenu(){
+        view.localMultiplayerMenu();
+        primaryStage.show();
+    }
+
     public static void startGame(GameSettings gameSettings) throws Exception {
 
         GameField gameField = new GameField(gameSettings);
