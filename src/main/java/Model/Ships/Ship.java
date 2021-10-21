@@ -16,7 +16,7 @@ public class Ship implements Comparable<Ship>, Drawable, Collidable, Serializabl
     protected final double acceleration;
     private final double turningAcceleration;
     private final double shootingRate;
-    private double timeSinceLastShoot; // i sekunder
+    private double timeSinceLastShoot; // in seconds
     private boolean canShoot;
     private final int classRank;
     private final String className;
@@ -51,11 +51,11 @@ public class Ship implements Comparable<Ship>, Drawable, Collidable, Serializabl
     private boolean turnRight;
     private boolean shoot;
 
-    private final boolean noob;
+    public boolean rotationElimination;
 
     private final int startPosition;
 
-    public Ship(double acceleration, double turningAcceleration, double shootingRate, String className, String name, double[] shapeX, double[] shapeY, double[] flameX, double[] flameY, double gunPosX, double gunPosY, int startPosition, int numberOfShips, Color color, boolean noob) throws Exception {
+    public Ship(double acceleration, double turningAcceleration, double shootingRate, String className, String name, double[] shapeX, double[] shapeY, double[] flameX, double[] flameY, double gunPosX, double gunPosY, int startPosition, int numberOfShips, Color color, boolean rotationElimination) throws Exception {
         this.acceleration = acceleration;
         this.turningAcceleration = turningAcceleration;
         this.shootingRate = shootingRate;
@@ -68,7 +68,7 @@ public class Ship implements Comparable<Ship>, Drawable, Collidable, Serializabl
         this.flameY = flameY;
         this.gunPosX = gunPosX;
         this.gunPosY = gunPosY;
-        this.noob = noob;
+        this.rotationElimination = rotationElimination;
         this.startPosition = startPosition;
 
         score = 0;
@@ -232,7 +232,7 @@ public class Ship implements Comparable<Ship>, Drawable, Collidable, Serializabl
         //TODO: this
             if (right) velR += turningAcceleration * time;
             if (left) velR -= turningAcceleration * time;
-            if (noob && !right && !left){
+            if (rotationElimination && !right && !left){
                 if (velR > 0.001) velR -= turningAcceleration * time * 0.5;
                 else if (velR < -0.001 ) velR += turningAcceleration * time * 0.5;
                 else velR = 0;

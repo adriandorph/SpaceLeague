@@ -8,13 +8,84 @@ public abstract class Bot {
     protected boolean turnLeft;
     protected boolean shoot;
 
+    //MoveForward
+    protected int boostDistance;
+    protected int boostDirectionPrecision;
+    protected int boostSpeed;
+    //Turning
+    protected int rotationPrecision;
+    protected int rotationSpeed;
+    //Shoot
+    protected int shotPrecision;
+
     public Ship ship;
 
     public Bot(Ship ship){
         this.ship = ship;
     }
 
-    public abstract void update(Ship[] opponents);
+    //Update
+
+    public void update(Ship[] opponents) {
+        //Chooses the closest opponent
+        Ship target = null;
+        double minDistance = Double.POSITIVE_INFINITY;
+        for (Ship ship: opponents){
+            double distanceToTarget = distanceToTarget(ship);
+            if (distanceToTarget < minDistance){
+                target = ship;
+                minDistance = distanceToTarget;
+            }
+        }
+
+        assert target != null;
+        updateMoveForward(target);
+        updateTurning(target);
+        updateShoot(target);
+
+        ship.setMoveForward(moveForward);
+        ship.setTurnRight(turnRight);
+        ship.setTurnLeft(turnLeft);
+        ship.setShoot(shoot);
+    }
+
+    protected void updateMoveForward(Ship target){
+        //If speed is low or going the wrong direction and target is not too close and ship is pointing somewhat in the right direction
+        moveForward = (ship.getSpeed() < ship.getAcceleration() * boostSpeed || goingOppositeDirection(target)) &&
+                distanceToTarget(target) > boostDistance && Math.abs(relativeAngle(target.getPositionX(), target.getPositionY())) < boostDirectionPrecision;
+    }
+
+    protected void updateTurning(Ship target){
+        //If relative angle is to the left or right turn left or right
+        double relativeAngle = relativeAngle(target.getPositionX(), target.getPositionY());
+        if (relativeAngle > rotationPrecision && ship.getVelR() < rotationSpeed) {
+            turnRight = true;
+            turnLeft = false;
+        } else if (relativeAngle < -rotationPrecision && ship.getVelR() > -rotationSpeed){
+            turnLeft = true;
+            turnRight = false;
+        } else {
+            turnLeft = false;
+            turnRight = false;
+        }
+    }
+
+    protected void updateShoot(Ship target){
+        //If ship is pointing at target
+        double relativeAngle = relativeAngle(target.getPositionX(), target.getPositionY());
+        shoot = relativeAngle < shotPrecision && relativeAngle > -shotPrecision;
+    }
+
+
+
+    //Queries
+
+    protected boolean goingOppositeDirection(Ship target){
+        double angleToTarget = angleToTarget(target.getPositionX(), target.getPositionY());
+        double direction = vectorAngle(ship.getVelX(), ship.getVelY());
+        double deltaAngle = deltaAngle(direction, angleToTarget);
+        return Math.abs(deltaAngle) > 90;
+    }
 
     protected double distanceToTarget(Ship target){
         return Math.sqrt((ship.getPositionX() - target.getPositionX()) * (ship.getPositionX() - target.getPositionX())

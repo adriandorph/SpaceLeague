@@ -121,7 +121,7 @@ public class QuickMatchCenterMenu extends VBox {
             unfairHBox.setSpacing(Controller.windowWidth * 0.005);//Spacing
         }
 
-        HBox botDiffucultyHBox = new HBox();
+        HBox botDifficultyHBox = new HBox();
         Label botDifficultyLabel = new Label("Bot difficulty:");
         botDifficultyLabel.setFont(gameFormatLabelfont);
         botDifficultyLabel.setStyle(gameFormatLabelSizeStyle);
@@ -134,11 +134,11 @@ public class QuickMatchCenterMenu extends VBox {
         botDifficultyDropDown.setValue(BotDifficulty.MEDIUM);
         botDifficultyDropDown.setStyle(dropDownFontSizeStyle);
 
-        botDiffucultyHBox.getChildren().add(botDifficultyLabel);
-        botDiffucultyHBox.getChildren().add(botDifficultyDropDown);
-        botDiffucultyHBox.setSpacing(Controller.windowWidth * 0.005);//Spacing
+        botDifficultyHBox.getChildren().add(botDifficultyLabel);
+        botDifficultyHBox.getChildren().add(botDifficultyDropDown);
+        botDifficultyHBox.setSpacing(Controller.windowWidth * 0.005);//Spacing
 
-        numOfPlayersBotDifficultyBorderPane.setRight(botDiffucultyHBox);
+        numOfPlayersBotDifficultyBorderPane.setRight(botDifficultyHBox);
 
 
 

@@ -38,23 +38,20 @@ public class GameField {
         for (int i = 0; i< ships.size(); i++){
             if (!indexOfPlayers.contains(i)){
                 switch (gameSettings.botDifficulty) {
-                    case EASY:
+                    case EASY -> {
                         EasyBot easyBot = new EasyBot(ships.get(i));
                         bots.add(easyBot);
-                        break;
-                    case MEDIUM:
-                        EasyBot mediumBot = new EasyBot(ships.get(i));
+                    }
+                    case MEDIUM -> {
+                        MediumBot mediumBot = new MediumBot(ships.get(i));
                         bots.add(mediumBot);
-                        break;
-                    case HARD:
-                        EasyBot hardBot = new EasyBot(ships.get(i));
+                    }
+                    case HARD -> {
+                        HardBot hardBot = new HardBot(ships.get(i));
                         bots.add(hardBot);
-                        break;
-                    default:
-                        throw new RuntimeException("BotDifficulty not set properly.");
+                    }
+                    default -> throw new RuntimeException("BotDifficulty not set properly.");
                 }
-                EasyBot easyBot = new EasyBot(ships.get(i));
-                bots.add(easyBot);
             }
         }
         this.hasBots = gameSettings.hasBots;
@@ -69,7 +66,7 @@ public class GameField {
         for (Ship ship: ships){
             ship.update(time);
         }
-        shotCollision(ships);
+        shotCollision();
         clock.updateClock(time);
     }
 
@@ -90,13 +87,13 @@ public class GameField {
     }
 
     private void botInputs(){
-        for (int i = 0; i<bots.size(); i++){
-            Ship[] opponents = opponents(bots.get(i).ship).toArray(new Ship[0]);
-            bots.get(i).update(opponents);
+        for (Bot bot : bots) {
+            Ship[] opponents = opponents(bot.ship).toArray(new Ship[0]);
+            bot.update(opponents);
         }
     }
 
-    private void shotCollision(List<Ship> ships) {
+    private void shotCollision() {
         for (Team team : teams) {
             List<Ship> otherShips = opponents(team.ships.get(0));
             for (Ship ship : team.ships) {//Ship in one team

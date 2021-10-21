@@ -1,16 +1,18 @@
 package Controller;
 
-import Exceptions.NotImplementedException;
 import Model.Ships.Ship;
 
 public class MediumBot extends Bot {
     public MediumBot(Ship ship){
         super(ship);
-        throw new NotImplementedException();
-    }
-
-    @Override
-    public void update(Ship[] opponents) {
-        throw new NotImplementedException();
+        //MoveForward
+        boostDistance = 75;
+        boostDirectionPrecision = 75;
+        boostSpeed = 2;
+        //Turning
+        rotationPrecision = 20;
+        rotationSpeed = 125;
+        //Shoot
+        shotPrecision = 50;
     }
 }
