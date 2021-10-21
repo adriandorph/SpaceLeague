@@ -1,8 +1,6 @@
 package Controller;
 
 import Model.*;
-import Model.Ships.Ship;
-import Model.Ships.ShipFactory;
 import View.GameCanvas;
 import View.View;
 import javafx.application.Platform;
@@ -15,9 +13,6 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
-
-import java.util.LinkedList;
-import java.util.List;
 
 
 public class Controller extends javafx.application.Application {

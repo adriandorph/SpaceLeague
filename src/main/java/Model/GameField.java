@@ -11,6 +11,7 @@ import java.util.List;
 
 public class GameField {
     private List<Ship> ships;
+    private List<Team> teams;
     private List<Bot> bots;
     private GameClock clock;
     private List<Integer> indexOfPlayers;
@@ -21,10 +22,10 @@ public class GameField {
     public GameField(GameSettings gameSettings) throws Exception {
         //Check for fairness of ships
         this.ships = new LinkedList<>();
-        for(ShipBuilder shipBuilder: gameSettings.shipBuilders){
-            this.ships.add(shipBuilder.buildShip());
+        this.teams = gameSettings.getTeams();
+        for(Team teams: teams){
+            ships.addAll(teams.ships);
         }
-
 
         String className = ships.get(0).getClassName();
         for (Ship ship: ships){
@@ -74,7 +75,7 @@ public class GameField {
         clock = new GameClock(time);
     }
 
-    public void update(double time){//Lav om så til any
+    public void update(double time){
         if (localMultiplayer) localMultiplayerInput(ships.get(indexOfPlayers.get(1))); //player 2
         else playerInputs(ships.get(indexOfPlayers.get(0)));//player 1
         if (hasBots) botInputs();
@@ -115,11 +116,18 @@ public class GameField {
         }
     }
 
-    private void shotCollision(List<Ship> ships){
-        for (Ship ship: ships) {
-            List<Shot> hitShots = new LinkedList<>();
-            for (Ship otherShip: ships){
-                if (otherShip != ship){
+    private void shotCollision(List<Ship> ships) {
+        for (Team team : teams) {
+            List<Ship> otherShips = new LinkedList<>();
+            for(Ship ship: ships){
+                if(!team.ships.contains(ship)){
+                    otherShips.add(ship);
+                }
+            }
+            for (Ship ship : team.ships) {//Ship in one team
+                List<Shot> hitShots = new LinkedList<>();
+
+                for (Ship otherShip : otherShips) {//Ships not on the team
                     for (Shot shot : ship.getShots()) {
                         if (CollisionDetection.isColliding(shot, otherShip)) {
                             hitShots.add(shot);
@@ -127,8 +135,8 @@ public class GameField {
                         }
                     }
                 }
+                ship.destroyShots(hitShots);
             }
-            ship.destroyShots(hitShots);
         }
     }
 

@@ -7,6 +7,7 @@ import Model.Ships.Ship;
 import Model.Ships.ShipBuilder;
 import Model.Ships.ShipFactory;
 import Model.Ships.ShipVariant;
+import Model.TeamSetting;
 import javafx.collections.ObservableList;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
@@ -28,6 +29,7 @@ public class QuickMatchCenterMenu extends VBox {
     private final BorderPane startBorderPane;
     private ComboBox<Integer> numOfPLayersDropDown;
     private final HBox unfairHBox;
+    private final CheckBox unfairCheckBox;
     private final HBox numberOfPlayersHBox;
     private boolean numberOfPlayersIsOption;
 
@@ -63,6 +65,7 @@ public class QuickMatchCenterMenu extends VBox {
         teamToggle.setOnAction(e -> {
             if (!teamToggle.isSelected()) teamToggle.setSelected(true);
             updateNumberOfPlayersSettings(numberOfPlayersIsOption);
+            numOfPLayersDropDown.setValue(4);
         });
 
 
@@ -108,7 +111,7 @@ public class QuickMatchCenterMenu extends VBox {
         Label unfairLabel = new Label("Unfair:");
         unfairLabel.setFont(gameFormatLabelfont);
         unfairLabel.setStyle(gameFormatLabelSizeStyle);
-        CheckBox unfairCheckBox = new CheckBox("");
+        unfairCheckBox = new CheckBox("");
         unfairCheckBox.setStyle(gameFormatLabelSizeStyle); //The font sets the size of the checkbox, because setPrefSize does not work
         unfairCheckBox.setSelected(false);
 
@@ -149,13 +152,6 @@ public class QuickMatchCenterMenu extends VBox {
         startBorderPane.setCenter(startGameButton);
 
         startGameButton.setOnAction(e -> {
-            GameSettings gameSettings = new GameSettings();
-            gameSettings.localMultiplayer = localMultiplayer;
-            gameSettings.botDifficulty = botDifficultyDropDown.getValue();
-            gameSettings.hasBots = true;
-
-            if(localMultiplayer) gameSettings.indexOfPlayers = new ArrayList<>(List.of(0,1));
-            else gameSettings.indexOfPlayers = new ArrayList<>(List.of(0));
 
             List<ShipBuilder> shipBuilders = new LinkedList<>();
             try {
@@ -166,7 +162,18 @@ public class QuickMatchCenterMenu extends VBox {
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
+
+            GameSettings gameSettings = new GameSettings(shipBuilders, getTeamSetting());
+            gameSettings.localMultiplayer = localMultiplayer;
+            gameSettings.botDifficulty = botDifficultyDropDown.getValue();
+            gameSettings.hasBots = true;
+
+            if(localMultiplayer) gameSettings.indexOfPlayers = new ArrayList<>(List.of(0,1));
+            else gameSettings.indexOfPlayers = new ArrayList<>(List.of(0));
+
+
             gameSettings.shipBuilders = new LinkedList<>();
+
             for (int i = 0; i<numOfPLayersDropDown.getValue(); i++){
                 gameSettings.shipBuilders.add(shipBuilders.get(i));
             }
@@ -201,6 +208,17 @@ public class QuickMatchCenterMenu extends VBox {
 
     public void updatePlayers(int numOfPlayers){
 
+    }
+
+    private TeamSetting getTeamSetting(){
+        if(individualAndTeamToggleGroup.getSelectedToggle() == individualToggle){
+            return TeamSetting.INDIVIDUAL;
+        } //If not individual, team is selected
+        else if (unfairCheckBox.isSelected()){
+            return TeamSetting.UNFAIR;
+        } else {
+            return TeamSetting.COOP;
+        }
     }
 
 }

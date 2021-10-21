@@ -373,4 +373,8 @@ public class Ship implements Comparable<Ship>, Drawable, Collidable, Serializabl
     public void setShoot(boolean shoot) {
         this.shoot = shoot;
     }
+
+    public void setColor(Color color){
+        this.color = color;
+    }
 }

@@ -52,9 +52,7 @@ public class Game implements Runnable {
                 render = true;
                 //update game
                 gameField.update(FPS);//I sekunder
-                if (gameField.getGameTime() <= 0.0){
-                    stop();
-                }
+                stopCondition();
 
                 if (frameTime >= 1){
                     frameTime = 0;
@@ -84,5 +82,11 @@ public class Game implements Runnable {
         }
         System.out.println("Game ended");
         dispose();
+    }
+
+    protected void stopCondition(){//Find ud af anden måde at styre forskellige gamemodes
+        if (gameField.getGameTime() <= 0.0){
+            stop();
+        }
     }
 }

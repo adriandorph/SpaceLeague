@@ -5,7 +5,7 @@ import javafx.scene.paint.Color;
 public class ShipBuilder {
     int startPosition;
     int numberOfShips;
-    Color color;
+    public Color color;
     boolean noob;
     ShipVariant shipVariant;
 
