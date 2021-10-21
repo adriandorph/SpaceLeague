@@ -53,6 +53,8 @@ public class Ship implements Comparable<Ship>, Drawable, Collidable, Serializabl
 
     private final boolean noob;
 
+    private final int startPosition;
+
     public Ship(double acceleration, double turningAcceleration, double shootingRate, String className, String name, double[] shapeX, double[] shapeY, double[] flameX, double[] flameY, double gunPosX, double gunPosY, int startPosition, int numberOfShips, Color color, boolean noob) throws Exception {
         this.acceleration = acceleration;
         this.turningAcceleration = turningAcceleration;
@@ -67,6 +69,7 @@ public class Ship implements Comparable<Ship>, Drawable, Collidable, Serializabl
         this.gunPosX = gunPosX;
         this.gunPosY = gunPosY;
         this.noob = noob;
+        this.startPosition = startPosition;
 
         score = 0;
         this.color = color;
@@ -89,10 +92,10 @@ public class Ship implements Comparable<Ship>, Drawable, Collidable, Serializabl
         turnRight = false;
         shoot = false;
 
-        startPosition(startPosition, numberOfShips);
+        startPosition(numberOfShips);
     }
 
-    public void startPosition(int startPosition, int numberOfShips) throws Exception {
+    public void startPosition(int numberOfShips) throws Exception {
         //Ship and scoreboard layout
         short scorePadding = 35;
         switch (numberOfShips){
@@ -376,5 +379,9 @@ public class Ship implements Comparable<Ship>, Drawable, Collidable, Serializabl
 
     public void setColor(Color color){
         this.color = color;
+    }
+
+    public int getStartPosition(){
+        return startPosition;
     }
 }

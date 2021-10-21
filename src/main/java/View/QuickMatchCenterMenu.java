@@ -115,10 +115,11 @@ public class QuickMatchCenterMenu extends VBox {
         unfairCheckBox.setStyle(gameFormatLabelSizeStyle); //The font sets the size of the checkbox, because setPrefSize does not work
         unfairCheckBox.setSelected(false);
 
-        unfairHBox.getChildren().add(unfairLabel);
-        unfairHBox.getChildren().add(unfairCheckBox);
-        unfairHBox.setSpacing(Controller.windowWidth * 0.005);//Spacing
-
+        if(!localMultiplayer){
+            unfairHBox.getChildren().add(unfairLabel);
+            unfairHBox.getChildren().add(unfairCheckBox);
+            unfairHBox.setSpacing(Controller.windowWidth * 0.005);//Spacing
+        }
 
         HBox botDiffucultyHBox = new HBox();
         Label botDifficultyLabel = new Label("Bot difficulty:");

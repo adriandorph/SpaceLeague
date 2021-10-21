@@ -22,9 +22,9 @@ public class GameField {
     public GameField(GameSettings gameSettings) throws Exception {
         //Check for fairness of ships
         this.ships = new LinkedList<>();
-        this.teams = gameSettings.getTeams();
-        for(Team teams: teams){
-            ships.addAll(teams.ships);
+        this.teams = gameSettings.createTeams();
+        for(Team team: teams){
+            ships.addAll(team.ships);
         }
 
         String className = ships.get(0).getClassName();
@@ -62,19 +62,6 @@ public class GameField {
 
     }
 
-    @Deprecated
-    public GameField(boolean host, List<Ship> ships, int time) throws UnfairException {
-        //Check for fairness of ships
-        String className = ships.get(0).getClassName();
-        for (Ship ship: ships){
-            if (!ship.getClassName().equals(className)) throw new UnfairException();
-        }
-        this.indexOfPlayers = new ArrayList<>(List.of(0));
-        this.ships = ships;
-        localMultiplayer = false;
-        clock = new GameClock(time);
-    }
-
     public void update(double time){
         if (localMultiplayer) localMultiplayerInput(ships.get(indexOfPlayers.get(1))); //player 2
         else playerInputs(ships.get(indexOfPlayers.get(0)));//player 1
@@ -104,26 +91,14 @@ public class GameField {
 
     private void botInputs(){
         for (int i = 0; i<bots.size(); i++){
-            Ship[] opponents = new Ship[ships.size()-1];
-            int index = 0;
-            for (Ship ship: ships){
-                if (ship != bots.get(i).ship){
-                    opponents[index] = ship;
-                    index++;
-                }
-            }
+            Ship[] opponents = opponents(bots.get(i).ship).toArray(new Ship[0]);
             bots.get(i).update(opponents);
         }
     }
 
     private void shotCollision(List<Ship> ships) {
         for (Team team : teams) {
-            List<Ship> otherShips = new LinkedList<>();
-            for(Ship ship: ships){
-                if(!team.ships.contains(ship)){
-                    otherShips.add(ship);
-                }
-            }
+            List<Ship> otherShips = opponents(team.ships.get(0));
             for (Ship ship : team.ships) {//Ship in one team
                 List<Shot> hitShots = new LinkedList<>();
 
@@ -132,6 +107,7 @@ public class GameField {
                         if (CollisionDetection.isColliding(shot, otherShip)) {
                             hitShots.add(shot);
                             ship.score++;
+                            team.updateScore();
                         }
                     }
                 }
@@ -155,5 +131,20 @@ public class GameField {
 
     public double getGameTime(){
         return clock.time;
+    }
+
+    private List<Ship> opponents(Ship ship){
+        List<Ship> opponents = new LinkedList<>();
+        for(Team team: teams){
+            if(!team.ships.contains(ship)){
+                opponents.addAll(team.ships);
+            }
+        }
+
+        return opponents;
+    }
+
+    public List<Team> getTeams(){
+        return teams;
     }
 }

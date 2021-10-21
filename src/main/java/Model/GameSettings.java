@@ -29,12 +29,12 @@ public class GameSettings {
         return ships;
     }
 
-    public List<Team> getTeams() throws Exception {
+    public List<Team> createTeams() throws Exception {
         List<Team> teams = new LinkedList<>();
         switch (teamSetting){
             case INDIVIDUAL:
                 for(ShipBuilder shipBuilder: shipBuilders){
-                    Team team = new Team(new LinkedList<>(List.of(shipBuilder.buildShip())), shipBuilder.color);
+                    Team team = new Team(new LinkedList<>(List.of(shipBuilder.buildShip())), shipBuilder.color, shipBuilders.size());
                     teams.add(team);
                 }
                 break;
@@ -43,8 +43,8 @@ public class GameSettings {
                 Color unfairColor1 = shipBuilders.get(0).color;
                 List<Ship> shipUnfairTeam2 = new LinkedList<>(List.of(shipBuilders.get(1).buildShip(), shipBuilders.get(2).buildShip()));
                 Color unfairColor2 = shipBuilders.get(1).color;
-                Team unfairTeam1 = new Team(shipUnfairTeam1, unfairColor1);
-                Team unfairTeam2 = new Team(shipUnfairTeam2, unfairColor2);
+                Team unfairTeam1 = new Team(shipUnfairTeam1, unfairColor1, 2);
+                Team unfairTeam2 = new Team(shipUnfairTeam2, unfairColor2, 2);
                 teams.add(unfairTeam1);
                 teams.add(unfairTeam2);
                 break;
@@ -53,8 +53,8 @@ public class GameSettings {
                 Color color1 = shipBuilders.get(0).color;
                 List<Ship> shipTeam2 = new LinkedList<>(List.of(shipBuilders.get(2).buildShip(), shipBuilders.get(3).buildShip()));
                 Color color2 = shipBuilders.get(1).color;
-                Team team1 = new Team(shipTeam1, color1);
-                Team team2 = new Team(shipTeam2, color2);
+                Team team1 = new Team(shipTeam1, color1, 2);
+                Team team2 = new Team(shipTeam2, color2, 2);
                 teams.add(team1);
                 teams.add(team2);
                 break;

@@ -89,7 +89,7 @@ public class Controller extends javafx.application.Application {
 
         Controller.gameSettings = gameSettings;
 
-        GameCanvas gameCanvas = new GameCanvas(primaryStage.getWidth(), primaryStage.getHeight(), gameField.getAllObjects(), gameField.getShips());
+        GameCanvas gameCanvas = new GameCanvas(primaryStage.getWidth(), primaryStage.getHeight(), gameField.getAllObjects(), gameField.getTeams());
         game = new Game(gameCanvas, gameField);
         StackPane gamePane = new StackPane();
         view.setCursor(Cursor.NONE);

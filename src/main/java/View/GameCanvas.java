@@ -3,6 +3,7 @@ package View;
 import Controller.Controller;
 import Model.Ships.Drawable;
 import Model.Ships.Ship;
+import Model.Ships.Team;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
@@ -14,21 +15,21 @@ import java.util.List;
 public class GameCanvas extends Canvas {
     private GraphicsContext gc;
 
-    public GameCanvas(double width, double height, List<Drawable> Objects, List<Ship> ships){
+    public GameCanvas(double width, double height, List<Drawable> Objects, List<Team> teams){
         super(width, height);
         gc = getGraphicsContext2D();
-        update(Objects, ships);
+        update(Objects, teams);
     }
 
-    public void update(List<Drawable> objects, List<Ship> ships){
+    public void update(List<Drawable> objects, List<Team> teams){
         gc.save();
         gc.setFill(Color.BLACK);
         gc.fillRect(0,0, getWidth(), getHeight());
         for (Drawable object: objects){
             object.draw(gc);
         }
-        for (Ship ship: ships){
-            ship.drawScore(gc);
+        for (Team team: teams){
+            team.drawScore(gc);
         }
         gc.restore();
     }
