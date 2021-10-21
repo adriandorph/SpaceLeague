@@ -54,6 +54,9 @@ public class GameField {
                 }
             }
         }
+        for(Bot bot: bots){
+            bot.ship.rotationElimination = false;
+        }
         this.hasBots = gameSettings.hasBots;
         clock = new GameClock(gameSettings.time);
 

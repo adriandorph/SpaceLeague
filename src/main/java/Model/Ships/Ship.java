@@ -55,7 +55,7 @@ public class Ship implements Comparable<Ship>, Drawable, Collidable, Serializabl
 
     private final int startPosition;
 
-    public Ship(double acceleration, double turningAcceleration, double shootingRate, String className, String name, double[] shapeX, double[] shapeY, double[] flameX, double[] flameY, double gunPosX, double gunPosY, int startPosition, int numberOfShips, Color color, boolean rotationElimination) throws Exception {
+    public Ship(double acceleration, double turningAcceleration, double shootingRate, String className, String name, double[] shapeX, double[] shapeY, double[] flameX, double[] flameY, double gunPosX, double gunPosY, int startPosition, int numberOfShips, Color color) throws Exception {
         this.acceleration = acceleration;
         this.turningAcceleration = turningAcceleration;
         this.shootingRate = shootingRate;
@@ -68,7 +68,7 @@ public class Ship implements Comparable<Ship>, Drawable, Collidable, Serializabl
         this.flameY = flameY;
         this.gunPosX = gunPosX;
         this.gunPosY = gunPosY;
-        this.rotationElimination = rotationElimination;
+        this.rotationElimination = true;
         this.startPosition = startPosition;
 
         score = 0;
