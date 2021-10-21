@@ -3,9 +3,7 @@ package View;
 import Controller.Controller;
 import Model.BotDifficulty;
 import Model.GameSettings;
-import Model.Ships.Ship;
 import Model.Ships.ShipBuilder;
-import Model.Ships.ShipFactory;
 import Model.Ships.ShipVariant;
 import Model.TeamSetting;
 import javafx.collections.ObservableList;
@@ -100,7 +98,6 @@ public class QuickMatchCenterMenu extends VBox {
             numberOfPlayersList.add(i);
         }
         numOfPLayersDropDown.setValue(2);
-        numOfPLayersDropDown.setOnAction(e -> updatePlayers(numOfPLayersDropDown.valueProperty().getValue()));
         numOfPLayersDropDown.setStyle(dropDownFontSizeStyle);
 
         numberOfPlayersHBox.getChildren().add(numOfPlayersLabel);
@@ -157,7 +154,7 @@ public class QuickMatchCenterMenu extends VBox {
             List<ShipBuilder> shipBuilders = new LinkedList<>();
             try {
                 shipBuilders.add(new ShipBuilder(0, numOfPLayersDropDown.getValue(), Color.RED, true, ShipVariant.MarkIShip));
-                shipBuilders.add(new ShipBuilder(shipBuilders.size(), numOfPLayersDropDown.getValue(), Color.LIME, false, ShipVariant.MarkIShip));
+                shipBuilders.add(new ShipBuilder(shipBuilders.size(), numOfPLayersDropDown.getValue(), Color.LIME, false, ShipVariant.MarkIIShip));
                 shipBuilders.add(new ShipBuilder(shipBuilders.size(), numOfPLayersDropDown.getValue(), Color.AQUA, false, ShipVariant.AlexI));
                 shipBuilders.add(new ShipBuilder(shipBuilders.size(), numOfPLayersDropDown.getValue(), Color.YELLOW, false, ShipVariant.BoxShip));
             } catch (Exception ex) {
@@ -205,10 +202,6 @@ public class QuickMatchCenterMenu extends VBox {
         if (teamToggle.isSelected()) numOfPlayersBotDifficultyBorderPane.setLeft(unfairHBox);
         else if (numberOfPlayersIsOption) numOfPlayersBotDifficultyBorderPane.setLeft(numberOfPlayersHBox);
         else numOfPlayersBotDifficultyBorderPane.setLeft(null);
-    }
-
-    public void updatePlayers(int numOfPlayers){
-
     }
 
     private TeamSetting getTeamSetting(){

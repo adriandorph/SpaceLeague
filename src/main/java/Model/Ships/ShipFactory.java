@@ -5,16 +5,7 @@ import javafx.scene.paint.Color;
 import java.util.HashMap;
 
 public class ShipFactory {
-    /*
-    private List<Flyable> Sclass;
-    private List<Flyable> Aclass;
-    private List<Flyable> Bclass;
-    private List<Flyable> Cclass;
-    private List<Flyable> Dclass;
-    private List<Flyable> AeroAclass;
-    private List<Flyable> AeroBclass;
-    private List<Flyable> TurboCclass;
-     */
+
     private static HashMap<String, Integer> classRanks = new HashMap<>();
     private static boolean isInitialized;
 
@@ -57,7 +48,7 @@ public class ShipFactory {
         double[] shapeX = {0.0, 3.25, 5.0, 14.0, 14.0, 15.0, 16.0, 16.0, 21.0, 16.0, 16.0, 14.0, 14.0, 5.0, 2.5, 0.0, -2.5, -5.0, -14.0, -14.0, -16.0, -16.0, -21.0, -16.0, -16.0, -15.0, -14.0, -14.0, -5.0, -3.25};
         double[] shapeY = {25, 20, 10, 4.36, 6.0, 8.0, 6.0, 3.11, 0, -3.12, -6.0, -6.0, -4.37, -10.0, -10.0, -14.0, -10.0, -10.0, -4.37, -6.0, -6.0, -3.12, 0, 3.11, 6.0, 8.0, 6.0, 4.36, 10, 20};
         double[] flameX = {-3, 3, 0};
-        double[] flameY = {-22, -22, -28};
+        double[] flameY = {-15, -15, -28};
         double gunPositionX = 0.0;
         double gunPositionY = 20.0;
         return new Ship(200,400,0.3,"S-class", "The Box", shapeX, shapeY, flameX, flameY, gunPositionX, gunPositionY, startPosition, numberOfShips, color, noob);
