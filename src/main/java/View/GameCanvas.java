@@ -2,8 +2,7 @@ package View;
 
 import Controller.Controller;
 import Model.Ships.Drawable;
-import Model.Ships.Ship;
-import Model.Ships.Team;
+import Model.Team;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;

@@ -153,10 +153,10 @@ public class QuickMatchCenterMenu extends VBox {
 
             List<ShipBuilder> shipBuilders = new LinkedList<>();
             try {
-                shipBuilders.add(new ShipBuilder(0, numOfPLayersDropDown.getValue(), Color.RED, true, ShipVariant.MarkIShip));
-                shipBuilders.add(new ShipBuilder(shipBuilders.size(), numOfPLayersDropDown.getValue(), Color.LIME, false, ShipVariant.MarkIIShip));
-                shipBuilders.add(new ShipBuilder(shipBuilders.size(), numOfPLayersDropDown.getValue(), Color.AQUA, false, ShipVariant.AlexI));
-                shipBuilders.add(new ShipBuilder(shipBuilders.size(), numOfPLayersDropDown.getValue(), Color.YELLOW, false, ShipVariant.BoxShip));
+                shipBuilders.add(new ShipBuilder(0, numOfPLayersDropDown.getValue(), Color.RED, ShipVariant.MarkI));
+                shipBuilders.add(new ShipBuilder(shipBuilders.size(), numOfPLayersDropDown.getValue(), Color.LIME, ShipVariant.MarkII));
+                shipBuilders.add(new ShipBuilder(shipBuilders.size(), numOfPLayersDropDown.getValue(), Color.AQUA, ShipVariant.AlexI));
+                shipBuilders.add(new ShipBuilder(shipBuilders.size(), numOfPLayersDropDown.getValue(), Color.YELLOW, ShipVariant.Box));
             } catch (Exception ex) {
                 ex.printStackTrace();
             }

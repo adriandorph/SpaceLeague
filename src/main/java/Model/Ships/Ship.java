@@ -16,6 +16,7 @@ public class Ship implements Comparable<Ship>, Drawable, Collidable, Serializabl
     protected final double acceleration;
     private final double turningAcceleration;
     private final double shootingRate;
+    private final double shootingPower;
     private double timeSinceLastShoot; // in seconds
     private boolean canShoot;
     private final int classRank;
@@ -55,10 +56,11 @@ public class Ship implements Comparable<Ship>, Drawable, Collidable, Serializabl
 
     private final int startPosition;
 
-    public Ship(double acceleration, double turningAcceleration, double shootingRate, String className, String name, double[] shapeX, double[] shapeY, double[] flameX, double[] flameY, double gunPosX, double gunPosY, int startPosition, int numberOfShips, Color color) throws Exception {
+    public Ship(double acceleration, double turningAcceleration, double shootingRate, double shootingPower, String className, String name, double[] shapeX, double[] shapeY, double[] flameX, double[] flameY, double gunPosX, double gunPosY, int startPosition, int numberOfShips, Color color) throws Exception {
         this.acceleration = acceleration;
         this.turningAcceleration = turningAcceleration;
         this.shootingRate = shootingRate;
+        this.shootingPower = shootingPower;
         this.classRank = ShipFactory.getRank(className);
         this.className = className;
         this.name = name;
@@ -337,7 +339,7 @@ public class Ship implements Comparable<Ship>, Drawable, Collidable, Serializabl
     }
 
     public void shoot() {
-        shots.add(new Shot(color, dynamicGunPosX, dynamicGunPosY, angle, velX, velY));
+        shots.add(new Shot(shootingPower, color, dynamicGunPosX, dynamicGunPosY, angle, velX, velY));
         timeSinceLastShoot = 0;
     }
 

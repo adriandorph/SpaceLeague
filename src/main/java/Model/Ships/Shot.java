@@ -17,14 +17,13 @@ public class Shot implements Drawable, Collidable {
     private final double velX;
     private final double velY;
     private final Color color;
-    private static final double speed = 500.0;
 
-    public Shot(Color color, double gunPositionX, double gunPositionY, double angle, double shipVelX, double shipVelY){
+    public Shot(double speed, Color color, double gunPositionX, double gunPositionY, double angle, double shipVelX, double shipVelY){
         this.color = color;
         positionX = gunPositionX;
         positionY = gunPositionY;
         this.angle = angle;
-        velX = speed * Math.cos(Math.toRadians(angle+90)) + shipVelX;//Det virker, ved ikke hvorfor +90;
+        velX = speed * Math.cos(Math.toRadians(angle+90)) + shipVelX;
         velY = speed * Math.sin(Math.toRadians(angle+90)) + shipVelY;
 
         boundingRadius = 0.0;

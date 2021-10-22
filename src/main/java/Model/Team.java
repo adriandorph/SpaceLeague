@@ -1,6 +1,7 @@
-package Model.Ships;
+package Model;
 
 import Controller.Controller;
+import Model.Ships.Ship;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;

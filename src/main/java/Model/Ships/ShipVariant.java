@@ -1,8 +1,9 @@
 package Model.Ships;
 
 public enum ShipVariant {
-    BoxShip,
-    MarkIShip,
-    MarkIIShip,
+    DEFAULT,
+    Box,
+    MarkI,
+    MarkII,
     AlexI
 }

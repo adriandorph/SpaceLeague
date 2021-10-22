@@ -2,7 +2,6 @@ package Model;
 
 import Model.Ships.Ship;
 import Model.Ships.ShipBuilder;
-import Model.Ships.Team;
 import javafx.scene.paint.Color;
 
 import java.util.LinkedList;
