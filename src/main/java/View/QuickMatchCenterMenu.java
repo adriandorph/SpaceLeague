@@ -145,9 +145,9 @@ public class QuickMatchCenterMenu extends VBox {
         //Team and ship selection
         List<Player> players = new LinkedList<>();
         players.add(new Player("Adrian", ShipVariant.MarkI, Color.RED));
-        players.add(new Player("Player2", ShipVariant.MarkII, Color.RED));
-        players.add(new Player("Bot1", ShipVariant.AlexI, Color.LIME));
-        players.add(new Player("Bot2", ShipVariant.Box, Color.LIME));
+        players.add(new Player("Player2", ShipVariant.MarkII, Color.LIME));
+        players.add(new Player("Bot1", ShipVariant.AlexI, Color.AQUA));
+        players.add(new Player("Bot2", ShipVariant.Box, Color.YELLOW));
 
         TeamSelectionBox shipTest = new TeamSelectionBox(players);
 
@@ -166,9 +166,9 @@ public class QuickMatchCenterMenu extends VBox {
             List<ShipBuilder> shipBuilders = new LinkedList<>();
             try {
                 shipBuilders.add(new ShipBuilder(0, numOfPLayersDropDown.getValue(), Color.RED, ShipVariant.MarkI));
-                shipBuilders.add(new ShipBuilder(shipBuilders.size(), numOfPLayersDropDown.getValue(), Color.LIME, ShipVariant.MarkII));
-                shipBuilders.add(new ShipBuilder(shipBuilders.size(), numOfPLayersDropDown.getValue(), Color.AQUA, ShipVariant.AlexI));
-                shipBuilders.add(new ShipBuilder(shipBuilders.size(), numOfPLayersDropDown.getValue(), Color.YELLOW, ShipVariant.Box));
+                shipBuilders.add(new ShipBuilder(shipBuilders.size(), numOfPLayersDropDown.getValue(), Color.LIME, ShipVariant.MarkI));
+                shipBuilders.add(new ShipBuilder(shipBuilders.size(), numOfPLayersDropDown.getValue(), Color.AQUA, ShipVariant.MarkI));
+                shipBuilders.add(new ShipBuilder(shipBuilders.size(), numOfPLayersDropDown.getValue(), Color.YELLOW, ShipVariant.MarkI));
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
