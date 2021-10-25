@@ -22,8 +22,8 @@ public class ShipFactory {
     public static ShowShip BuildShowShip(ShipVariant shipVariant, Color color){
         return switch (shipVariant){
             case Box -> Box(color);
-            case MarkI, DEFAULT -> MarkII(color);
-            case MarkII -> MarkI(color);
+            case MarkI, DEFAULT -> MarkI(color);
+            case MarkII -> MarkII(color);
             case AlexI -> AlexI(color);
         };
     }
@@ -37,10 +37,10 @@ public class ShipFactory {
     private static final double BoxGunPositionX = 0.0;
     private static final double BoxGunPositionY = 20.0;
     //Stats
-    private static final double BoxAcceleration = 200;
-    private static final double BoxTurning = 400;
-    private static final double BoxShootingRate = 0.3;
-    private static final double BoxShootingPower = 500;
+    private static final double BoxAcceleration = 100;
+    private static final double BoxTurning = 200;
+    private static final double BoxShootingRate = 0.2;
+    private static final double BoxShootingPower = 400;
 
     private static Ship Box(int startPosition, int numberOfShips, Color color) throws Exception {
         initializeRanks();
@@ -48,7 +48,7 @@ public class ShipFactory {
     }
 
     private static ShowShip Box(Color color){
-        return new ShowShip(BoxShapeX, BoxShapeY, color, BoxAcceleration, BoxTurning, BoxShootingRate, BoxShootingPower);
+        return new ShowShip("S-class", "The Box", BoxShapeX, BoxShapeY, color, BoxAcceleration, BoxTurning, BoxShootingRate, BoxShootingPower);
     }
 
     //MarkI
@@ -72,7 +72,7 @@ public class ShipFactory {
     }
 
     private static ShowShip MarkI(Color color){
-        return new ShowShip(MarkIShapeX, MarkIShapeY, color, MarkIAcceleration, MarkITurning, MarkIShootingRate, MarkIShootingPower);
+        return new ShowShip("S-class", "Mark I", MarkIShapeX, MarkIShapeY, color, MarkIAcceleration, MarkITurning, MarkIShootingRate, MarkIShootingPower);
     }
 
     //MarkII
@@ -85,10 +85,10 @@ public class ShipFactory {
     private static final double MarkIIGunPositionY = 21.5;
 
     //Stats
-    private static final double MarkIIAcceleration = 200;
-    private static final double MarkIITurning = 400;
-    private static final double MarkIIShootingRate = 0.3;
-    private static final double MarkIIShootingPower = 500;
+    private static final double MarkIIAcceleration = 70;
+    private static final double MarkIITurning = 100;
+    private static final double MarkIIShootingRate = 0.1;
+    private static final double MarkIIShootingPower = 300;
 
 
     private static Ship MarkII(int startPosition, int numberOfShips, Color color) throws Exception {
@@ -97,7 +97,7 @@ public class ShipFactory {
     }
 
     private static ShowShip MarkII(Color color){
-        return new ShowShip(MarkIIShapeX, MarkIIShapeY, color, MarkIIAcceleration, MarkIITurning, MarkIIShootingRate, MarkIIShootingPower);
+        return new ShowShip("S-class", "Mark II", MarkIIShapeX, MarkIIShapeY, color, MarkIIAcceleration, MarkIITurning, MarkIIShootingRate, MarkIIShootingPower);
     }
 
     //AlexI
@@ -117,11 +117,11 @@ public class ShipFactory {
 
     private static Ship AlexI(int startPosition, int numberOfShips, Color color) throws Exception {
         initializeRanks();
-        return new Ship(AlexIAcceleration,AlexITurning,AlexIShootingRate, AlexIShootingPower,"S-class", "The Box", AlexIShapeX, AlexIShapeY, AlexIFlameX, AlexIFlameY, AlexIGunPositionX, AlexIGunPositionY, startPosition, numberOfShips, color);
+        return new Ship(AlexIAcceleration,AlexITurning,AlexIShootingRate, AlexIShootingPower,"S-class", "Alex I", AlexIShapeX, AlexIShapeY, AlexIFlameX, AlexIFlameY, AlexIGunPositionX, AlexIGunPositionY, startPosition, numberOfShips, color);
     }
 
     private static ShowShip AlexI(Color color){
-        return new ShowShip(AlexIShapeX, AlexIShapeY, color, AlexIAcceleration, AlexITurning, AlexIShootingRate, AlexIShootingPower);
+        return new ShowShip("S-class", "Alex I", AlexIShapeX, AlexIShapeY, color, AlexIAcceleration, AlexITurning, AlexIShootingRate, AlexIShootingPower);
     }
 
     private static final List<Double> acceleration = new LinkedList<>(List.of(

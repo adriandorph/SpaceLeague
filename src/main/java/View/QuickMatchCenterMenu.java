@@ -3,6 +3,7 @@ package View;
 import Controller.Controller;
 import Model.BotDifficulty;
 import Model.GameSettings;
+import Model.Player;
 import Model.Ships.ShipBuilder;
 import Model.Ships.ShipVariant;
 import Model.TeamSetting;
@@ -24,6 +25,7 @@ public class QuickMatchCenterMenu extends VBox {
     private final ToggleButton individualToggle;
     private final ToggleButton teamToggle;
     private BorderPane numOfPlayersBotDifficultyBorderPane;
+    private BorderPane teamAndShipSelectionBorderPane;
     private final BorderPane startBorderPane;
     private ComboBox<Integer> numOfPLayersDropDown;
     private final HBox unfairHBox;
@@ -137,10 +139,20 @@ public class QuickMatchCenterMenu extends VBox {
 
         numOfPlayersBotDifficultyBorderPane.setRight(botDifficultyHBox);
 
-
-
         updateNumberOfPlayersSettings(true);
 
+
+        //Team and ship selection
+        List<Player> players = new LinkedList<>();
+        players.add(new Player("Adrian", ShipVariant.MarkI, Color.RED));
+        players.add(new Player("Player2", ShipVariant.MarkII, Color.RED));
+        players.add(new Player("Bot1", ShipVariant.AlexI, Color.LIME));
+        players.add(new Player("Bot2", ShipVariant.Box, Color.LIME));
+
+        TeamSelectionBox shipTest = new TeamSelectionBox(players);
+
+        teamAndShipSelectionBorderPane = new BorderPane();
+        teamAndShipSelectionBorderPane.setCenter(shipTest);
 
 
         //StartButton
@@ -193,6 +205,7 @@ public class QuickMatchCenterMenu extends VBox {
 
         getChildren().add(individualAndTeamToggleBorderPane);
         getChildren().add(numOfPlayersBotDifficultyBorderPane);
+        getChildren().add(teamAndShipSelectionBorderPane);
         getChildren().add(startBorderPane);
 
     }

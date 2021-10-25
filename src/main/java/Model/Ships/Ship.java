@@ -224,6 +224,26 @@ public class Ship implements Comparable<Ship>, Drawable, Collidable, Serializabl
         }
     }
 
+    public static double[] dynamicShapeX(double[] shapeX, double[] shapeY, double angle, double positionX, double controllerFactor){
+        double[] dynamicShapeX = new double[shapeX.length];
+        for (int i = 0; i<shapeX.length; i++){
+            //Rotation https://www.youtube.com/watch?v=OYuoPTRVzxY
+            double shapePosX = shapeX[i] * Math.cos(Math.toRadians(angle)) - shapeY[i] * Math.sin(Math.toRadians(angle));
+            dynamicShapeX[i] = (shapePosX+positionX) * controllerFactor;
+        }
+        return dynamicShapeX;
+    }
+
+    public static double[] dynamicShapeY(double[] shapeX, double[] shapeY, double angle, double positionY, double controllerFactor){
+        double[] dynamicShapeY = new double[shapeY.length];
+        for (int i = 0; i<shapeX.length; i++){
+            //Rotation https://www.youtube.com/watch?v=OYuoPTRVzxY
+            double shapePosY = shapeY[i] * Math.cos(Math.toRadians(angle)) + shapeX[i] * Math.sin(Math.toRadians(angle));
+            dynamicShapeY[i] = (shapePosY+positionY) * controllerFactor;
+        }
+        return dynamicShapeY;
+    }
+
     public void updateAngle(double time){
         angle += velR * time;
         if (angle < 0){

@@ -6,6 +6,10 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 
 public class ShowShip {
+    public final String name;
+    public final String className;
+
+
     //Draw
     private final double[] shapeX;
     private final double[] shapeY;
@@ -19,7 +23,10 @@ public class ShowShip {
     public double shootingRate;
     public double shootingPower;
 
-    public ShowShip(double[] shapeX, double[] shapeY, Color color, double acceleration, double turning, double shootingRate, double shootingPower){
+    public ShowShip(String className, String name, double[] shapeX, double[] shapeY, Color color, double acceleration, double turning, double shootingRate, double shootingPower){
+        this.name = name;
+        this.className = className;
+
         this.shapeX = shapeX;
         this.shapeY = shapeY;
         this.color = color;
@@ -32,17 +39,25 @@ public class ShowShip {
         this.shootingPower = ShipFactory.getStat(shootingPower, Stat.ShootingPower);
     }
 
-    public void drawShip(GraphicsContext gc, double sizeFactor, double angle){
+    public Canvas drawShip(double sizeFactor, double angle){
         sizeFactor *= Controller.factor;
-        Ship.polygonAngle(shapeX, shapeY, dynamicShapeX, dynamicShapeY, angle, 0, 0, sizeFactor);
-        double positionX = ((-min(dynamicShapeX) + max(dynamicShapeX)) * sizeFactor) / 2;
-        double positionY = ((-min(dynamicShapeY) + max(dynamicShapeY)) * sizeFactor) / 2;
-        //Call Ship.polygonAngle again to get a position where all parts of the ship can be seen and is not outside the Canvas
-        Ship.polygonAngle(shapeX, shapeY, dynamicShapeX, dynamicShapeY, angle, positionX, positionY, sizeFactor);
+        dynamicShapeX = Ship.dynamicShapeX(shapeX, shapeY, angle,0, sizeFactor);
+        dynamicShapeY = Ship.dynamicShapeY(shapeX, shapeY, angle, 0, sizeFactor);
 
+        double positionX = -min(dynamicShapeX) / sizeFactor;
+        double positionY = -min(dynamicShapeY) / sizeFactor;
+
+
+        //Call Ship.dynamicShape again to get a position where all parts of the ship can be seen and is not outside the Canvas
+        dynamicShapeX = Ship.dynamicShapeX(shapeX, shapeY, angle,positionX, sizeFactor);
+        dynamicShapeY = Ship.dynamicShapeY(shapeX, shapeY, angle, positionY, sizeFactor);
+
+        Canvas canvas = new Canvas(max(dynamicShapeX),max(dynamicShapeY));
+        GraphicsContext gc = canvas.getGraphicsContext2D();
         //draw
         gc.setFill(color);
         gc.fillPolygon(dynamicShapeX, dynamicShapeY, dynamicShapeX.length);
+        return canvas;
     }
 
     public Canvas drawStat(double width, double height, Stat stat){
@@ -53,10 +68,11 @@ public class ShowShip {
             case ShootingPower -> shootingPower * width;
         };
 
-        Canvas canvas = new Canvas();
+        Canvas canvas = new Canvas(width,height);
         GraphicsContext gc = canvas.getGraphicsContext2D();
         gc.setFill(Color.gray(0.4));
         gc.fillPolygon(new double[]{0.0, width, width, 0.0}, new double[]{0.0, 0.0, height, height}, 4);
+        gc.setFill(Color.WHITE);
         gc.fillPolygon(new double[]{0.0, statWidth, statWidth, 0.0},new double[]{0.0, 0.0, height, height}, 4);
 
         return canvas;

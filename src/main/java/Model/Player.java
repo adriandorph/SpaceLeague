@@ -18,4 +18,8 @@ public class Player {
         this.name = name;
         this.showShip = ShipFactory.BuildShowShip(ShipVariant.DEFAULT, color);
     }
+
+    public void setShowShip(ShowShip showShip){
+        this.showShip = showShip;
+    }
 }
