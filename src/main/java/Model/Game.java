@@ -7,7 +7,7 @@ public class Game implements Runnable {
     public GameCanvas gameCanvas;
     private GameField gameField;
     private Thread thread;
-    private boolean running;
+    private volatile boolean running;
     private final double FPS = 1.0/60.0; //60 times per second (60 fps)
 
     public Game(GameCanvas gameCanvas, GameField gameField){

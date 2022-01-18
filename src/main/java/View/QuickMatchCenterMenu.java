@@ -187,7 +187,7 @@ public class QuickMatchCenterMenu extends VBox {
             for (int i = 0; i<numOfPLayersDropDown.getValue(); i++){
                 gameSettings.shipBuilders.add(shipBuilders.get(i));
             }
-            gameSettings.time = 150;
+            gameSettings.time = 10000000;//150
             try {
                 Controller.startGame(gameSettings);
             } catch (Exception exception) {
