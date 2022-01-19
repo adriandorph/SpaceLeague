@@ -187,7 +187,7 @@ public class QuickMatchCenterMenu extends VBox {
             for (int i = 0; i<numOfPLayersDropDown.getValue(); i++){
                 gameSettings.shipBuilders.add(shipBuilders.get(i));
             }
-            gameSettings.time = 10000000;//150
+            gameSettings.time = 150;
             try {
                 Controller.startGame(gameSettings);
             } catch (Exception exception) {
@@ -205,7 +205,7 @@ public class QuickMatchCenterMenu extends VBox {
 
         getChildren().add(individualAndTeamToggleBorderPane);
         getChildren().add(numOfPlayersBotDifficultyBorderPane);
-        getChildren().add(teamAndShipSelectionBorderPane);
+        //getChildren().add(teamAndShipSelectionBorderPane);
         getChildren().add(startBorderPane);
 
     }
