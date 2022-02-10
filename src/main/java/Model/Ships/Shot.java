@@ -2,6 +2,7 @@ package Model.Ships;
 
 import Controller.Controller;
 import Model.Collidable;
+import javafx.application.Platform;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 
@@ -50,8 +51,8 @@ public class Shot implements Drawable, Collidable {
 
     @Override
     public void draw(GraphicsContext gc) {
-        gc.setFill(color);
-        gc.fillPolygon(dynamicShapeX, dynamicShapeY, dynamicShapeX.length);
+            gc.setFill(color);
+            gc.fillPolygon(dynamicShapeX, dynamicShapeY, dynamicShapeX.length);
     }
 
     //Collidable

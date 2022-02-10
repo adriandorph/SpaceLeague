@@ -3,6 +3,7 @@ import Controller.Controller;
 import Model.Collidable;
 import Model.CollisionDetection;
 import Model.Direction;
+import javafx.application.Platform;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -32,7 +33,7 @@ public class Ship implements Comparable<Ship>, Drawable, Collidable, Serializabl
     private double[] dynamicFlameX;
     private double[] dynamicFlameY;
     protected Color color;
-    private List<Shot> shots;
+    private final List<Shot> shots;
     public int score;
     private double scoreX;
 
@@ -345,17 +346,19 @@ public class Ship implements Comparable<Ship>, Drawable, Collidable, Serializabl
     }
 
     public void drawScore(GraphicsContext gc){
-        gc.setFill(color);
-        gc.setTextAlign(TextAlignment.CENTER);
-        gc.setFont(new Font("Roboto", 30 * Controller.factor));
-        gc.fillText(Integer.toString(score), scoreX * Controller.factor, 40 * Controller.factor);
+        Platform.runLater(()->{
+            gc.setFill(color);
+            gc.setTextAlign(TextAlignment.CENTER);
+            gc.setFont(new Font("Roboto", 30 * Controller.factor));
+            gc.fillText(Integer.toString(score), scoreX * Controller.factor, 40 * Controller.factor);
+        });
     }
 
     @Override
     public void draw(GraphicsContext gc){
-        gc.setFill(color);
-        gc.fillPolygon(dynamicShapeX, dynamicShapeY, dynamicShapeX.length);
-        if (moveForward) gc.fillPolygon(dynamicFlameX, dynamicFlameY, dynamicFlameX.length);
+            gc.setFill(color);
+            gc.fillPolygon(dynamicShapeX, dynamicShapeY, dynamicShapeX.length);
+            if (moveForward) gc.fillPolygon(dynamicFlameX, dynamicFlameY, dynamicFlameX.length);
     }
 
     public void shoot() {

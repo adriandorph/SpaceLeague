@@ -2,6 +2,7 @@ package Model;
 
 import Controller.Controller;
 import Model.Ships.Drawable;
+import javafx.application.Platform;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -18,7 +19,6 @@ public class GameClock implements Drawable {
         time -= timePassed;
     }
 
-
     private String displayString(){
 
         int displaySeconds = (int)time %  60;
@@ -34,9 +34,9 @@ public class GameClock implements Drawable {
 
     @Override
     public void draw(GraphicsContext gc) {
-        gc.setFill(Color.WHITE);
-        gc.setTextAlign(TextAlignment.CENTER);
-        gc.setFont(new Font("Roboto", 30 * Controller.factor));
-        gc.fillText(displayString(), 1280.0 / 2 * Controller.factor, 80 * Controller.factor);
+            gc.setFill(Color.WHITE);
+            gc.setTextAlign(TextAlignment.CENTER);
+            gc.setFont(new Font("Roboto", 30 * Controller.factor));
+            gc.fillText(displayString(), 1280.0 / 2 * Controller.factor, 80 * Controller.factor);
     }
 }

@@ -49,9 +49,13 @@ public class Controller extends javafx.application.Application {
             Platform.exit();
             System.exit(0);
         });
+
         Controller.primaryStage = primaryStage;
-        setFullScreen();
-        //setSize(720);
+
+
+        if (screenHasFormat16_9()) setFullScreen();
+        else setSize(720);
+
 
         view = new View();
         view.setFill(Color.BLACK);
@@ -128,6 +132,14 @@ public class Controller extends javafx.application.Application {
         primaryStage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
         primaryStage.setFullScreen(true);
         fullScreen = true;
+    }
+
+    public static boolean screenHasFormat16_9(){
+        Screen screen = Screen.getPrimary();
+        Rectangle2D bounds = screen.getVisualBounds();
+        double maxHeight = bounds.getHeight() + 40;
+        double maxWidth = bounds.getWidth();
+        return maxWidth / maxHeight == 16.0 / 9.0;
     }
 
     public void setGameKeyInput(Scene scene){

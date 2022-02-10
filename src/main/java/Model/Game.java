@@ -1,14 +1,14 @@
 package Model;
 
 import View.GameCanvas;
+import javafx.application.Platform;
 
 public class Game implements Runnable {
 //https://www.youtube.com/watch?v=4iPEjFUZNsw
     public GameCanvas gameCanvas;
-    private GameField gameField;
-    private Thread thread;
+    private final GameField gameField;
     private volatile boolean running;
-    private final double FPS = 1.0/60.0; //60 times per second (60 fps)
+    private static final double FPS = 1.0/60.0; //60 times per second (60 fps)
 
     public Game(GameCanvas gameCanvas, GameField gameField){
         this.gameField = gameField;
@@ -16,7 +16,7 @@ public class Game implements Runnable {
     }
 
     public void start(){
-        thread = new Thread(this); // Demands that this is Runnable
+        Thread thread = new Thread(this); // Demands that this is Runnable
         thread.start();
     }
 
@@ -26,7 +26,7 @@ public class Game implements Runnable {
     }
 
     public void dispose(){
-        gameCanvas.gameOver();
+        Platform.runLater(()-> gameCanvas.gameOver());
     }
 
     public void run(){
@@ -52,19 +52,19 @@ public class Game implements Runnable {
                 render = true;
                 //update game
                 gameField.update(FPS);//I sekunder
-                stopCondition();
+                if (stopCondition()) stop();
 
                 if (frameTime >= 1){
                     frameTime = 0;
                     int fpsActual = frames;
                     frames = 0;
-                    //System.out.println("FPS: "+ fpsActual);
+                    System.out.println("FPS: "+ fpsActual);
                 }
             }
 
             if (render){
                 //render game
-                gameCanvas.update(gameField.getAllObjects(), gameField.getTeams());
+                Platform.runLater(() -> gameCanvas.update(gameField.getAllObjects(), gameField.getTeams()));
                 frames++;
 
             } else { //Nothing to do, so wait a bit before running through the running loop again.
@@ -74,19 +74,13 @@ public class Game implements Runnable {
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-
-
-
-
             }
         }
         System.out.println("Game ended");
         dispose();
     }
 
-    protected void stopCondition(){//Find ud af anden måde at styre forskellige gamemodes
-        if (gameField.getGameTime() <= 0.0){
-            stop();
-        }
+    protected boolean stopCondition(){//Find ud af anden måde at styre forskellige gamemodes
+        return gameField.getGameTime() <= 0.0;
     }
 }
